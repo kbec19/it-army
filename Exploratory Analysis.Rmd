@@ -44,8 +44,6 @@ The third is a data set of media coverage (media articles and social media menti
 
 ## Gathering DDOS User Data
 
-This data consists of a set of observations by day and by country where an IP address originated in the use of a popular DDOS tool used from March 2 through March 11, 2022. I will not be examining the time series in this project; rather, I will be looking at the cumulative total number of users across all countries as of the final day observed.
-
 ## Gathering WVS/EVS Data
 
 ## Gathering Spike/Newswhip Data
