@@ -68,7 +68,7 @@ The data I imported for this first exploration is a data frame consisting of 98 
 
 ```{r code_folding = TRUE}
 #load the data
-ddos <- read_csv("./data/fckptn_cumulative_observations.csv")
+ddos <- read_csv("./data/cumulative_observations.csv")
 #summarize the data
 options(scipen = 999)
 summary(ddos)
@@ -76,7 +76,7 @@ summary(ddos)
 
 ```{r code_folding = TRUE}
 #load the data
-ddos <- read_csv("./data/fckptn active observations.csv")
+ddos <- read_csv("./data/active_observations.csv")
 #assign column names to represent variables accurately
 colnames(ddos) <- c("Country", "Population", "Region", "March2", "March3", "March4", "March5", "March6", "March7", "March8", "March9", "March10", "March11")
 #summarize the data
@@ -108,7 +108,7 @@ I want to first simplify my data set
 
 ```{r code_folding=TRUE}
 
-ddos_final <- read_csv("data/fckptn_cumulative_observations.csv")
+ddos_final <- read_csv("data/cumulative_observations.csv")
 ddos_df <- ddos_final %>% 
   select(c(Population, Users))
 ```
