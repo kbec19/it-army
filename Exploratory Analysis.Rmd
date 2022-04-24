@@ -142,4 +142,43 @@ gg1b
 
 It is clear that there is no correlation between a country's population and the number of users of the DDOS tool.
 
+The next data source I want to incorporate is the IVS data set. This brings in an overwhelming 135,000 observations of 231 variables.
+
+```{r code_folding = TRUE}
+#read in .dta file
+library(haven)
+ivs_data <- read_dta("data/ivs/ZA7505_v2-0-0.dta")
+head(ivs_data[33:42])
+```
+
+#Subset the raw dataset into the columns I want to examine
+
+```{r code_folding = TRUE}
+#select relevant data
+ivs_subset <- select(ivs_data,10,13,31,33,34,35,40:50,106,109:114,119:138,143:151)
+ivs_df <- as.data.frame(ivs_subset)
+head(ivs_df[1:5])
+```
+
+To make matchine easier, I can use the "countrycode" package to assign proper country names to the ISO-3 numeric code from the data set.
+
+```{r code_folding = TRUE}
+#load package for converting country codes
+library(countrycode)
+
+ivs_df$country.name <- countrycode(ivs_df$cntry, origin = "iso3n", destination = "country.name")
+head(ivs_df[50:54])
+```
+
+Now I (may) want to clean up the rest of the subsetted data by assigning all negative values "NA". 
+
+```{r code_folding = TRUE}
+ivs_na <- ivs_df
+ivs_na[ivs_na < 0] <- NA
+head(ivs_na[50:54])
+```
+
+
+
+
 

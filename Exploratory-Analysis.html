@@ -2625,7 +2625,54 @@ corresponding sample of users from that country.</p>
 </div>
 <p>It is clear that there is no correlation between a country’s
 population and the number of users of the DDOS tool.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>The next data source I want to incorporate is the IVS data set. This
+brings in an overwhelming 135,000 observations of 231 variables.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 6 x 10
+  gwght pwght wght_eq1000 reg_nuts1 reg_nuts2  reg_iso size_5c respint
+  &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
+1 0.838 0.140       0.697 AL0       AL03      -4 [Not~ 3 [200~ 1 [Ver~
+2 0.482 0.140       0.697 AL0       AL03      -4 [Not~ 2 [500~ 1 [Ver~
+3 1.35  0.140       0.697 AL0       AL03      -4 [Not~ 2 [500~ 1 [Ver~
+4 0.973 0.140       0.697 AL0       AL01      -4 [Not~ 2 [500~ 1 [Ver~
+5 0.829 0.140       0.697 AL0       AL01      -4 [Not~ 2 [500~ 1 [Ver~
+6 1.81  0.140       0.697 AL0       AL01      -4 [Not~ 2 [500~ 2 [Som~
+# ... with 2 more variables: A001 &lt;dbl+lbl&gt;, A002 &lt;dbl+lbl&gt;</code></pre>
+</div>
+<p>#Subset the raw dataset into the columns I want to examine</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>  cntry year lnge_num     gwght     pwght
+1     8 2018       13 0.8382137 0.1399217
+2     8 2018       13 0.4815543 0.1399217
+3     8 2018       13 1.3496867 0.1399217
+4     8 2018       13 0.9729848 0.1399217
+5     8 2018       13 0.8289713 0.1399217
+6     8 2018       13 1.8129007 0.1399217</code></pre>
+</div>
+<p>To make matchine easier, I can use the “countrycode” package to
+assign proper country names to the ISO-3 numeric code from the data
+set.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>  E233A E233B E235 E236 country.name
+1    -2     8   10    1      Albania
+2     7     1   10   10      Albania
+3    10     1   10    8      Albania
+4     6     4   10    9      Albania
+5     8     1   10    7      Albania
+6    10     1   10    1      Albania</code></pre>
+</div>
+<p>Now I (may) want to clean up the rest of the subsetted data by
+assigning all negative values “NA”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>  E233A E233B E235 E236 country.name
+1    NA     8   10    1      Albania
+2     7     1   10   10      Albania
+3    10     1   10    8      Albania
+4     6     4   10    9      Albania
+5     8     1   10    7      Albania
+6    10     1   10    1      Albania</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
