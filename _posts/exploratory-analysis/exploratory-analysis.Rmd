@@ -44,6 +44,10 @@ The third is a data set of media coverage (media articles and social media menti
 
 ## Gathering WVS/EVS Data
 
+Only includes full responses: EVS (2020b). European Values Study 2017: Integrated Dataset (EVS 2017). GESIS Data Archive, Cologne. ZA7500 Data file Version 4.0.0. doi:10.4232/1.13560.
+
+EVS (2020c). European Values Study 2017: Integrated Dataset (EVS 2017)—Matrix Design Data. GESIS Data Archive, Cologne. ZA7502 Data file Version 2.0.0. doi:10.4232/1.13561.
+
 ## Gathering Spike/Newswhip Data
 
 
@@ -113,6 +117,20 @@ ggplot(ddos_regions, aes(x = Date)) +
     geom_line(aes(y = Western_Asia, colour = "Western Asia")) +
     geom_line(aes(y = Western_Europe, colour = "Western Europe")) +
   scale_colour_discrete((name = "Region")) +
+  xlab("Dates") +
+  ylab("Users") +
+  ggtitle("Increase in Users by Date") +
+  theme_minimal()
+```
+
+
+```{r code_folding = TRUE}
+daily_observations <- read_csv("daily_observations.csv", 
+    col_types = cols(Date = col_date(format = "%m/%d/%Y")))
+ddos_daily <- as_tibble(daily_observations) 
+
+gg <- ggplot(ddos_regions, aes(x = Date)) +
+  geom_line(aes(y = Total)) +
   xlab("Dates") +
   ylab("Users") +
   ggtitle("Increase in Users by Date") +
@@ -196,9 +214,53 @@ head(ivs_clean)
 
 # Modeling Data
 
-There is some changes needed to make the data more manageable. I want to clean up some of the data by assigning negative values to "0" when applicable. 
+There is some changes needed to make the data more manageable. I want to clean up some of the data by assigning negative values to "0" when applicable. The specific variables I'm going to look at first are from the 
 
 ```{r code_folding = TRUE}
+ivs_important <- read.csv("ivs_means_important.csv")
+ivs_important <- as_tibble(ivs_important)
+names(ivs_important)[1] <- 'country'
+head(ivs_important)
 ```
 
+```{r code_folding = TRUE}
+important <- ivs_important %>%
+  group_by(country) %>%
+  summarise(
+    family = mean(family),
+    friends = mean(friends),
+    leisure = mean(leisure),
+    politics = mean(politics),
+    work = mean(work),
+    religion = mean(religion)
+  )
 
+head(important)
+```
+
+```{r code_folding = TRUE}
+ivs_politics <- read.csv("ivs_means_politics.csv")
+ivs_politics <- as_tibble(ivs_politics)
+names(ivs_politics)[1] <- 'country'
+head(ivs_politics)
+
+politics <- ivs_politics %>%
+  group_by(country) %>%
+  summarise(
+    willingness = mean(willing_fight),
+    politics = mean(interest_politics),
+    petition = mean(sign_petition),
+    boycott = mean(join_boycott),
+    demonstration = mean(attend_demonstration),
+    strikes = mean(join_strikes),
+    identity = mean(self_id)
+  )
+write.csv(politics, file = "politics.csv", row.names = TRUE)
+
+fight <- ivs_politics %>%
+  group_by(country) %>%
+  mutate(willingness = case_when(
+    willing_fight == 0 ~ "NA",
+    willing_fight == 1 ~ "no",
+    willing_fight == 2 ~ "yes"))
+```
