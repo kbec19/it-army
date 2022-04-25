@@ -9,8 +9,7 @@ categories:
 author:
   - name: Kristina Becvar
     url: https://www.kristinabecvar.com
-slug: it-army
-date: 2022-04-20
+date: 2022-04-24
 output:
   distill::distill_article:
     toc: true
@@ -68,7 +67,7 @@ The data I imported for this first exploration is a data frame consisting of 98 
 
 ```{r code_folding = TRUE}
 #load the data
-ddos <- read_csv("./data/cumulative_observations.csv")
+ddos <- read_csv("./data/telegram/cumulative_observations.csv")
 #summarize the data
 options(scipen = 999)
 summary(ddos)
@@ -76,7 +75,7 @@ summary(ddos)
 
 ```{r code_folding = TRUE}
 #load the data
-ddos <- read_csv("./data/active_observations.csv")
+ddos <- read_csv("./data/telegram/active_observations.csv")
 #assign column names to represent variables accurately
 colnames(ddos) <- c("Country", "Population", "Region", "March2", "March3", "March4", "March5", "March6", "March7", "March8", "March9", "March10", "March11")
 #summarize the data
@@ -93,7 +92,36 @@ sum(ddos$March11)
 
 However, I am not going to examine the panel data; I am only going to look at the cumulative data - or the count of users on the last day of observations, March 11.
 
-Plot the relationships between key variables of this dataset:
+It is still important to be able to visualize the dramatic change in user count over time, even if I am not analyzing the time series in this analysis.
+
+```{r code_folding = TRUE}
+regional_observations <- read_csv("data/telegram/regional_observations.csv", 
+    col_types = cols(Date = col_date(format = "%m/%d/%Y")))
+ddos_regions <- as_tibble(regional_observations) 
+
+ggplot(ddos_regions, aes(x = Date)) +
+  geom_line(aes(y = Africa, colour = "Africa")) +
+  geom_line(aes(y = Central_America, colour = "Central America")) +
+    geom_line(aes(y = Central_America, colour = "Central America")) +
+    geom_line(aes(y = Central_Asia, colour = "Central Asia")) +
+    geom_line(aes(y = Eastern_Europe, colour = "Eastern Europe")) +
+    geom_line(aes(y = North_America, colour = "North America")) +
+    geom_line(aes(y = Northern_Europe, colour = "Northern Europe")) +
+    geom_line(aes(y = Oceania, colour = "Oceania")) +
+    geom_line(aes(y = Southeastern_Asia, colour = "Southeastern Asia")) +
+    geom_line(aes(y = South_America, colour = "South America")) +
+    geom_line(aes(y = Southern_Europe, colour = "Southern Europe")) +
+    geom_line(aes(y = Western_Asia, colour = "Western Asia")) +
+    geom_line(aes(y = Western_Europe, colour = "Western Europe")) +
+  scale_colour_discrete((name = "Region")) +
+  xlab("Dates") +
+  ylab("Users") +
+  ggtitle("Increase in Users by Date") +
+  theme_minimal()
+
+```
+
+I also want to plot the relationships between key variables of this dataset:
 
 ```{r code_folding=TRUE}
 #create plot
@@ -107,8 +135,7 @@ What I want to look at is the linear model of the relationship between the popul
 I want to first simplify my data set
 
 ```{r code_folding=TRUE}
-
-ddos_final <- read_csv("data/cumulative_observations.csv")
+ddos_final <- read_csv("data/telegram/cumulative_observations.csv")
 ddos_df <- ddos_final %>% 
   select(c(Population, Users))
 ```
@@ -149,36 +176,42 @@ The next data source I want to incorporate is the IVS data set. This brings in a
 library(haven)
 ivs_data <- read_dta("data/ivs/ZA7505_v2-0-0.dta")
 head(ivs_data[33:42])
+write.csv(ivs_data, file = "./data/ivs/ivs_data.csv", row.names = TRUE)
 ```
 
 #Subset the raw dataset into the columns I want to examine
 
 ```{r code_folding = TRUE}
 #select relevant data
-ivs_subset <- select(ivs_data,10,13,31,33,34,35,40:50,106,109:114,119:138,143:151)
+ivs_subset <- select(ivs_data,10,34,35,40:50,106,109:114,119:138,150:162,166,188:196,199,201,210:214,222,224,225,230,231)
 ivs_df <- as.data.frame(ivs_subset)
 head(ivs_df[1:5])
 ```
 
-To make matchine easier, I can use the "countrycode" package to assign proper country names to the ISO-3 numeric code from the data set.
+To make matching easier, I can use the "countrycode" package to assign proper country names to the ISO-3 numeric code from the data set.
 
 ```{r code_folding = TRUE}
 #load package for converting country codes
 library(countrycode)
 
 ivs_df$country.name <- countrycode(ivs_df$cntry, origin = "iso3n", destination = "country.name")
-head(ivs_df[50:54])
+head(ivs_df[72:77])
 ```
 
-Now I (may) want to clean up the rest of the subsetted data by assigning all negative values "NA". 
+Now I (may) want to clean up the rest of the subsetted data by assigning negative values to "0" when applicable. I've done this and saved it as a ".csv" file, so I'm going to clean up the current files and load that clean data.
 
 ```{r code_folding = TRUE}
-ivs_na <- ivs_df
-ivs_na[ivs_na < 0] <- NA
-head(ivs_na[50:54])
+rm(list = ls())
+ivs_clean <- read.csv("./data/ivs/ivs_df_names.csv")
+ivs_clean <- as_tibble(ivs_clean)
+names(ivs_clean)[1] <- 'country'
+head(ivs_clean)
 ```
 
+# Modeling Data
 
 
+```{r code_folding = TRUE}
+```
 
 

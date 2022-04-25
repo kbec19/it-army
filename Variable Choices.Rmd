@@ -661,7 +661,7 @@ Column 201: Born in or immigrant to country
 Columns 210-213: Demographics
 Columns 214-221: Education
 Columns 222-229: Job
-Columns 201-231: Income
+Columns 230-231: Income
 
 
 
