@@ -1,0 +1,167 @@
+---
+title: "Further Analysis"
+description: |
+  DACSS 603 Final Project Work: "Further Analysis
+categories:
+  - statistics
+  - final project
+  - IT Army of Ukraine
+author:
+  - name: Kristina Becvar
+date: 2022-04-26
+output:
+  distill::distill_article:
+    toc: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(cowplot)
+library(here)
+```
+
+# Working Data
+
+This time I will start with the data frames with the observations I am looking at but not summarized by mean:
+
+```{r code_folding = TRUE}
+all_data <- read.csv("integrated_data.csv")
+names(all_data)[1] <- 'country'
+head(all_data)
+```
+
+Rather than just using a linear model, I want to look at some basic visualizations of relationships. I'll start by just looking at which countries have the highest mean values assigned by respondents to the question of how important politics is to them.
+
+```{r code_folding=TRUE}
+
+imp_plot <- arrange(all_data, desc(politics))
+head(imp_plot)
+
+```
+
+Next, I'll use the "broom" package to look at the linear relationship between all variables and save it in a dataframe:
+
+```{r code_folding=TRUE}
+data_lm <- lm(users~family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
+tidylm_important <- tidy(data_lm)
+tidylm_important
+```
+
+```{r code_folding=TRUE}
+data_lm2 <- lm(users~willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude)
+tidylm_politics <- tidy(data_lm2)
+tidylm_politics
+```
+
+```{r code_folding=TRUE}
+data_lm3 <- lm(users~marital + parents + children + household + education + income, data = all_data, na.action = na.exclude)
+tidylm_demographics <- tidy(data_lm3)
+tidylm_demographics
+```
+
+```{r code_folding=TRUE}
+all_data %>% 
+  ggplot(aes(log(users), log(education))) +
+  geom_point() +
+  geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="goldenrod") +
+    theme_minimal_hgrid()
+```
+
+Predictor Variables for a Weighting Scale (https://journals.sagepub.com/doi/full/10.1177/00027642211021626)
+Following the previous studies on protest potential, I use three sets of individual-level sociodemographic measures in the 1996 ISSP to construct a weighting scale of protest potential. Female indicates gender (0 = male, 1 = female). I include three age groups: young for 15 to 29 years, middle for 30 to 54 years, and old for 55 years and older. College education is the most important stage in educational attainment that promotes civic involvement and political interests related to political participation (Van Dyke, 2003). To capture the effect of the highest level of education completed by the respondent, I create college graduate, which measures whether the respondent earned a bachelor’s degree (0 = noncollege graduate, 1 = college graduate).3 At the country level, long-standing democracy measures whether the country has a well-established democratic history (0 = new democracy and autocracy, 1 = long-standing democracy). Following Hadenius and Teorell (2007), I converted each country’s mean of Freedom House scores for political rights and civil liberties and Polity score from Polity5 to an 11-point scale ranging from 0 (autocracy) to 10 (democracy)4 and calculated the mean of these two democracy scores. Using a threshold score of 7.5 to distinguish democracies from autocracies (Hadenius & Teorell 2007),5 I treated countries that initiated a democratic political system prior to 1980 to “long-standing democracies” versus other countries that have either a relatively short history of democracy or still maintain features of an autocratic regime, called “new democracies and autocracies.” The annual democracy scores for the countries in the analysis are provided in the online supplement.
+
+Q1
+In general, would you say that people should obey the law without exception, or are there exceptional occasions on which people should
+follow their consciences even if it means breaking the law?
+
+1 Obey the law without exception
+2 Follow conscience on occasions
+8 Can't choose
+9 No answer
+
+Q2
+There are many ways people or organisations can protest against a government action they strongly oppose. Please show which you think
+should be allowed and which should not be allowed by ticking a box on each line.
+(PLEASE TICK ONE BOX ON EACH LINE)
+Q2a
+Organising public meetings to protest against the government.
+1 Definitely allowed
+2 Probably allowed
+3 Probably not allowed
+4 Definitely not allowed
+8 Can't choose
+9 No answer
+
+Q2b
+Organising protest marches and demonstrations.
+1 Definitely allowed
+2 Probably allowed
+3 Probably not allowed
+4 Definitely not allowed
+8 Can't choose
+9 No answer
+
+Q3
+There are some people whose views are considered extreme by the majority. Consider people who want to overthrow the government by
+revolution. Do you think such people should be allowed to...
+(PLEASE TICK ONE BOX ON EACH LINE)
+Q3a
+...hold public meetings to express their views?
+1 Definitely allowed
+2 Probably allowed
+3 Probably not allowed
+4 Definitely not allowed
+8 Can't choose
+9 No answer
+
+Q3
+There are some people whose views are considered extreme by the majority. Consider people who want to overthrow the government by
+revolution. Do you think such people should be allowed to...
+(PLEASE TICK ONE BOX ON EACH LINE)
+Q3b
+...publish books expressing their views?
+1 Definitely allowed
+2 Probably allowed
+3 Probably not allowed
+4 Definitely not allowed
+8 Can't choose
+9 No answer
+
+```{r code_folding=TRUE}
+
+#read in .dta file
+library(haven)
+issp <- read_dta("ZA6900_v2-0-0.dta")
+head(issp)
+library(countrycode)
+issp$country <- countrycode(issp$c_alphan, origin = "iso2c", destination = "country.name")
+issp_subset <- read.csv("issp_subset.csv")
+
+issp_legal <- issp_subset %>%
+   group_by(country) %>%
+   summarise(
+     obey_laws=mean(obey, na.rm = TRUE),
+     public_mtgs=mean(public, na.rm = TRUE),
+     protests=mean(protest, na.rm = TRUE),
+     revolutionary_mtgs=mean(revolutionary, na.rm = TRUE),
+     revolutionary_books=mean(books, na.rm = TRUE))
+
+issp_legal <- read.csv("issp_legal.csv")
+
+```
+
+```{r code_folding=TRUE}
+issp_desc <- arrange(issp_legal, desc(obey_laws))
+
+issp_desc
+
+```
+
+
+
