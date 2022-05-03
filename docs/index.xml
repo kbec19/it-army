@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>IT Army</title>
+    <link>https://kbec19.github.io/it-army/</link>
+    <atom:link href="https://kbec19.github.io/it-army/index.xml" rel="self" type="application/rss+xml"/>
+    <description>IT Army
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Tue, 26 Apr 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Further Analysis</title>
+      <dc:creator>Kristina Becvar</dc:creator>
+      <link>https://kbec19.github.io/it-army/posts/further-analysis</link>
+      <description>DACSS 603 Final Project Work: "Further Analysis</description>
+      <category>statistics</category>
+      <category>final project</category>
+      <category>IT Army of Ukraine</category>
+      <guid>https://kbec19.github.io/it-army/posts/further-analysis</guid>
+      <pubDate>Tue, 26 Apr 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Exploratory Analysis</title>
+      <dc:creator>Kristina Becvar</dc:creator>
+      <link>https://kbec19.github.io/it-army/posts/exploratory-analysis</link>
+      <description>DACSS 603 Final Project Work: "Analyzing Data"</description>
+      <category>statistics</category>
+      <category>final project</category>
+      <category>IT Army of Ukraine</category>
+      <guid>https://kbec19.github.io/it-army/posts/exploratory-analysis</guid>
+      <pubDate>Sun, 24 Apr 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Project Info and Data Sources</title>
+      <dc:creator>Kristina Becvar</dc:creator>
+      <link>https://kbec19.github.io/it-army/posts/welcome</link>
+      <description>Welcome to the project page for the quantitative analysis of data gathered concerning the call to create an 'IT Army of Ukraine'.</description>
+      <category>statistics</category>
+      <category>final project</category>
+      <category>IT Army of Ukraine</category>
+      <category>data sources</category>
+      <guid>https://kbec19.github.io/it-army/posts/welcome</guid>
+      <pubDate>Wed, 20 Apr 2022 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

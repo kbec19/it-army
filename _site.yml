@@ -1,5 +1,6 @@
 name: "."
 title: "IT Army"
+base_url: https://kbec19.github.io/it-army/
 description: |
   IT Army
 output_dir: "docs"
