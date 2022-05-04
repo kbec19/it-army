@@ -2,6 +2,7 @@
 title: "Exploratory Analysis"
 description: |
   DACSS 603 Final Project Work: "Analyzing Data"
+preview: usersbyday.png
 categories:
   - statistics
   - final project
@@ -15,12 +16,14 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
-library(dplyr)
+library(plyr); library(dplyr)
 library(ggplot2)
+library(cowplot)
 library(broom)
+library(scales)
 library(here)
 ```
 
@@ -38,57 +41,68 @@ I will also be using a data set of observations from the World Values Survey con
 
 The third is a data set of media coverage (media articles and social media mentions) of the Ukrainian minister's call for volunteers for the "IT Army of Ukraine" to help fight the invasion of Russia on the digital front. 
 
-# Background
-
-
-# Hypothesis
-
-I am looking at a model where the outcome is the number of DDOS attacks originated from a given country and explanatory variables are WVS activism scores, media coverage, and other controls.
-
 # Data Analysis
 
 ## DDOS Users
 
-The data I imported for this first exploration is a data frame consisting of 98 observations with the columns:
+I moved the data into various forms to best explore ways to analyze it.
+
+### DDOS Daily Observations
 
 * Country Name
 * Population (as indicated by the U.S. CIA World factbook website)
 * Region (as indicated by the UN classifications)
-* Cumulative total number of users of the DDOS attack tool from each representative country as of March 11, 2022
+* Columns for each date being observed from March 2 - March 11 of DDOS users from each country. This is difficult to use for analysis because the daily observations do NOT represent new users added on that day; rather, the daily observations represent the culumative users from each country as of that day.
 
 ```{r code_folding = TRUE}
 #load the data
-ddos <- read_csv("cumulative_observations.csv")
-#summarize the data
-options(scipen = 999)
-summary(ddos)
-```
-
-```{r code_folding = TRUE}
-#load the data
-ddos <- read_csv("active_observations.csv")
+ddos_daily <- read_csv("active_observations.csv")
 #assign column names to represent variables accurately
-colnames(ddos) <- c("Country", "Population", "Region", "March2", "March3", "March4", "March5", "March6", "March7", "March8", "March9", "March10", "March11")
+colnames(ddos_daily) <- c("Country", "Population", "Region", "March2", "March3", "March4", "March5", "March6", "March7", "March8", "March9", "March10", "March11")
 #summarize the data
 options(scipen = 999)
-head(ddos)
+head(ddos_daily)
 ```
 
 The total DDOS users as of the first day of observations, March 2, 2022, and the last day available for observation, March 11, 2022 began at 7,850 and grew to a total of 48,879.
 
 ```{r code_folding = TRUE}
-sum(ddos$March2)
-sum(ddos$March11)
+sum(ddos_daily$March2)
+sum(ddos_daily$March11)
 ```
 
-However, I am not going to examine the panel data; I am only going to look at the cumulative data - or the count of users on the last day of observations, March 11.
+### DDOS Cumulative Observations
 
-It is still important to be able to visualize the dramatic change in user count over time, even if I am not analyzing the time series in this analysis.
+However, I am not going to examine the panel data; I am only going to look at the cumulative data - or the count of users on the last day of observations, March 11. So this looks at:
+
+* Country Name
+* Population (as indicated by the U.S. CIA World factbook website)
+* Region (as indicated by the UN classifications)
+* Users of the DDOS tool from each country as of the last day observed, March 11
 
 ```{r code_folding = TRUE}
-regional_observations <- read_csv("regional_observations.csv", 
+#load the data
+ddos_cumulative <- read_csv("cumulative_observations.csv")
+#summarize the data
+options(scipen = 999)
+head(ddos_cumulative)
+```
+
+### DDOS Regional Observations
+
+It is still important to be able to visualize the dramatic change in user count over time, even if I am not analyzing the time series in this analysis. I experimented with displaying the increase as a whole and the increase by region. So this looks at:
+
+* Date of observations
+* Users of the DDOS tool from each region as of the the given day
+
+```{r code_folding = TRUE}
+ddos_regions <- read_csv("regional_observations.csv", 
     col_types = cols(Date = col_date(format = "%m/%d/%Y")))
-ddos_regions <- as_tibble(regional_observations) 
+ddos_regions <- as_tibble(ddos_regions) 
+ddos_regions
+```
+
+```{r code_folding = TRUE}
 
 ggplot(ddos_regions, aes(x = Date)) +
   geom_line(aes(y = Africa, colour = "Africa")) +
@@ -111,48 +125,42 @@ ggplot(ddos_regions, aes(x = Date)) +
   theme_minimal()
 ```
 
-
 ```{r code_folding = TRUE}
-daily_observations <- read_csv("daily_observations.csv", 
+ddos_time <- read_csv("daily_observations.csv", 
     col_types = cols(Date = col_date(format = "%m/%d/%Y")))
-ddos_daily <- as_tibble(daily_observations) 
-
-gg <- ggplot(ddos_regions, aes(x = Date)) +
+ddos_time <- as_tibble(ddos_time) 
+gg <- ggplot(ddos_time, aes(x = Date)) +
   geom_line(aes(y = Total)) +
   xlab("Dates") +
   ylab("Users") +
   ggtitle("Increase in Users by Date") +
   theme_minimal()
-
 gg
-
 ```
 
-## Population & User Data
+### Population & User Data Only
 
-I'll start with a basic look at the relationship between the population of the countries and the number of users of DDOS attacks from the corresponding countries:
+I'll start with a basic visualization of the relationship between the population of the countries and the number of users of DDOS attacks from the corresponding countries:
 
 ```{r code_folding=TRUE}
 #create plot
-ggplot(ddos, aes(x = log(Population), y = log(March11), color = Region)) +
+ggplot(ddos_cumulative, aes(x = log(Population), y = log(Users), color = Region)) +
   geom_point () +
   facet_wrap("Region")
 ```
 
-## Linear Model of Population and Users
+### Linear Model of Population and Users
 
 What I want to look at is the linear model of the relationship between the population of each country with participating users and the corresponding sample of users from that country.
 
-I want to first simplify my data set
+I'll first simplify my data set to only contain the columns I am looking at here.
 
 ```{r code_folding=TRUE}
-ddos_final <- read_csv("cumulative_observations.csv")
-ddos_df <- ddos_final %>% 
+pop_df <- ddos_cumulative %>% 
   select(c(Population, Users))
-library(cowplot)
-gg1 <- ggplot(ddos_df, aes(x=Population, y=Users)) +
+gg1 <- ggplot(pop_df, aes(x=Population, y=Users)) +
    geom_point() +
-   geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="goldenrod") +
+   geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="cornflowerblue") +
    labs(title= "Population and Users",
         x= "Population",
         y = "Users") +
@@ -161,10 +169,12 @@ gg1
 
 ```
 
+That's a mess. I want to take the log() of the data to achieve a better look at the model
+
 ```{r}
-gg1b <- ggplot(ddos_df, aes(x=log(Population), y=log(Users))) +
+gg1b <- ggplot(pop_df, aes(x=log(Population), y=log(Users))) +
   geom_point() +
-  geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="goldenrod") +
+  geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="cornflowerblue") +
    labs(title= "Log: Population and Users",
         x= "Population (log)",
         y = "Users (log)") +
@@ -173,12 +183,20 @@ gg1b <- ggplot(ddos_df, aes(x=log(Population), y=log(Users))) +
 gg1b
 ```
 
+On first look at this relationship, it seems clear that there is no correlation between a country's population and the number of users of the DDOS tool.
 
-**It is clear that there is no correlation between a country's population and the number of users of the DDOS tool.**
+```{r code_folding=TRUE}
+ddos_pop_lm <- lm(Population~Users, data = pop_df)
+summary(ddos_pop_lm)
+```
 
-# Loading IVS Data
+## IVS Data
 
-The next data source I want to incorporate is the IVS data set. This brings in an overwhelming 135,000 observations of 231 variables. I selected the columns I am interested in working with and saved as a .csv file, which I will read in for the rest of the analysis.
+The next data source I want to explore is the IVS data set. 
+
+### Reading in Data
+
+This brings in an overwhelming 135,000 observations of 231 variables. I selected the columns I am interested in working with and saved as a .csv file, which I will read in for the rest of the analysis.
 
 To make matching easier, I used the "countrycode" package to assign proper country names to the ISO-3 numeric code from the data set.
 
@@ -195,18 +213,33 @@ To make matching easier, I used the "countrycode" package to assign proper count
 #library(countrycode)
 #ivs_df$country.name <- countrycode(ivs_df$cntry, origin = "iso3n", destination = "country.name")
 
-rm(list = ls())
 ivs_clean <- read.csv("ivs_df_names.csv")
 ivs_clean <- as_tibble(ivs_clean)
 names(ivs_clean)[1] <- 'country'
 head(ivs_clean)
 ```
 
-# Transforming IVS Data
+### Transforming IVS Data
 
-## Importance to Respondents
+#### Preprocessing
 
-There is some changes needed to make the data more manageable. I want to clean up some of the data by assigning all negative values representing various codes for no available observation to "NA" when applicable. 
+In the original data in the IVS datasets, there are some meaningless choices in the value labels such as “Not asked,” “NA,” and “DK.” Additionally, some response have negative serial numbers. Furthermore, I excluded variables that have a response structure that do not follow the structures that are congruous to the structure of the majority of the responses.
+
+#### Normalization
+
+Some of the variables have different value labels and maximum values, even within the same family of topics. For example, I may want to normalize the user scale when looking at, for example, the first set of variables that have responses on a scale of 1 to 4 accordingly?
+
+```{r code_folding = TRUE}
+all_data <- read.csv("integrated_data.csv")
+scale_4 <- rescale(all_data$users, to=c(1,4))
+summary(scale_4)
+scale_users_4 <- as.data.frame(scale_4)
+head(scale_users_4)
+```
+
+### Importance to Respondents
+
+There are some changes needed to make the data more manageable. I want to clean up some of the data by assigning all negative values representing various codes for no available observation to "NA" when applicable. 
 
 ```{r code_folding = TRUE}
 important_na <- read.csv("important_na.csv")
@@ -224,11 +257,13 @@ important <- important_na %>%
     work = mean(work, na.rm = TRUE),
     religion = mean(religion, na.rm = TRUE)
   )
-
 summary(important)
+
+shapiro.test(all_data$users)
+
 ```
 
-## Political Inclinations of Respondents
+### Political Inclinations of Respondents
 
 ```{r code_folding = TRUE}
 #read in the 
@@ -254,7 +289,7 @@ politics <- politics_na %>%
 summary(politics)
 ```
 
-## Demographics of Respondents
+### Demographics of Respondents
 
 ```{r code_folding = TRUE}
 #read in the data
@@ -278,92 +313,31 @@ demographics <- demographics_na %>%
 summary(demographics)
 ```
 
-# Matching Data
+## Matching Data
 
-When eliminating the countries who did not have a profile in the IVS dataset from my observation data, I lost approximately 2,000 observations. First I want to look at how this changes the distribution, if at all, among regions:
+When eliminating the countries who did not have a profile in the IVS dataset from my observation data, I lost approximately 2,000 observations and have 67 countries to compare. I created a data frame of this information to use going forward.
 
 ```{r code_folding = TRUE}
 all_data <- read_csv("integrated_data.csv")
 head(all_data)
 ```
 
-# Multiple Linear Regression
 
-## Importance to Respondents
+# Using Scaled Data
 
-```{r code_folding=TRUE}
-#Linear regression of "importance" variables
-mlm1 <- lm(users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
-summary(mlm1)
+```{r code_folding = TRUE}
+#Join scaled values of users to summary data
+all_data$users4 <- scale_4
+#Linear regression of "importance" variables + scaled user variable  
+lm_imp <- lm(users4 ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
+summary(lm_imp)
 ```
 
-## Political Inclinations of Respondents
+Compare that to the un-scaled user data. I'm not sure that scaling will make a difference in the data integrity using regression analysis going forward.
 
-```{r code_folding=TRUE}
-#Linear regression of "politics" variables
-mlm2 <- lm(users ~ willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude)
-summary(mlm2)
+```{r code_folding = TRUE}
+
+#Linear regression of "importance" variables + unscaled user variable  
+lm_imp2 <- lm(users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
+summary(lm_imp2)
 ```
-
-## Demographics of Respondents
-
-```{r code_folding=TRUE}
-#Linear regression of "demographics" variables
-mlm3 <- lm(users ~ marital + parents + children + household + education + income, data = all_data, na.action = na.exclude)
-summary(mlm3)
-```
-
-# Simple Linear Regression
-
-## Potential Correlation with Strike Propensity
-
-I am going to look further at the potential correlation between countries with a propensity to engage in strikes and engage in DDOS attacks.
-
-```{r code_folding=TRUE}
-#Linear regression of "politics" variable "strikes"
-lm_strikes <- lm(users ~ strikes, data = all_data, na.action = na.exclude)
-summary(lm_strikes)
-```
-
-It may be that there are no correlations to be found here. But I want to run the analyses again using a column found in the codebook indicating 'weights' for population that should be used when comparing multiple variables to account for population size.
-
-# Adding Population Weights
-
-## Population to Users
-
-I'll re-run the model with just population and users, but using the weights column:
-
-```{r code_folding=TRUE}
-
-lm_population_weighted <- lm(population ~ users, data = all_data, na.action = na.exclude, weights)
-summary(lm_population_weighted)
-
-```
-
-## Importance to Respondents
-
-```{r code_folding=TRUE}
-#Linear regression of "importance" variables + weighted   
-mlm1w <- lm(users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude, weights)
-summary(mlm1w)
-```
-
-## Political Inclinations of Respondents
-
-```{r code_folding=TRUE}
-#Linear regression of "politics" variables + weighted
-mlm2w <- lm(users ~ willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude, weights)
-summary(mlm2w)
-```
-
-## Demographics of Respondents
-
-```{r code_folding=TRUE}
-#Linear regression of "demographics" variables + weighted
-mlm3w <- lm(users ~ marital + parents + children + household + education + income, data = all_data, na.action = na.exclude, weights)
-summary(mlm3w)
-```
-
-
-
-

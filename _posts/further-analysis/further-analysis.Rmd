@@ -26,6 +26,95 @@ library(cowplot)
 library(here)
 ```
 
+
+# Multiple Linear Regression
+
+## Importance to Respondents
+
+```{r code_folding=TRUE}
+#Linear regression of "importance" variables
+mlm1 <- lm(users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
+summary(mlm1)
+```
+
+## Political Inclinations of Respondents
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2 <- lm(users ~ willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude)
+summary(mlm2)
+```
+
+## Demographics of Respondents
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm3 <- lm(users ~ marital + parents + children + household + education + income, data = all_data, na.action = na.exclude)
+summary(mlm3)
+```
+
+# Simple Linear Regression
+
+## Potential Correlation with Strike Propensity
+
+I am going to look further at the potential correlation between countries with a propensity to engage in strikes and engage in DDOS attacks.
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variable "strikes"
+lm_strikes <- lm(users ~ strikes, data = all_data, na.action = na.exclude)
+summary(lm_strikes)
+```
+
+It may be that there are no correlations to be found here. But I want to run the analyses again using a column found in the codebook indicating 'weights' for population that should be used when comparing multiple variables to account for population size.
+
+# Adding Population Weights
+
+## Population to Users
+
+I'll re-run the model with just population and users, but using the weights column:
+
+```{r code_folding=TRUE}
+
+lm_population_weighted <- lm(population ~ users, data = all_data, na.action = na.exclude, weights)
+summary(lm_population_weighted)
+
+```
+
+## Importance to Respondents
+
+```{r code_folding=TRUE}
+#Linear regression of "importance" variables + weighted   
+mlm1w <- lm(users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude, weights)
+summary(mlm1w)
+```
+
+## Political Inclinations of Respondents
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables + weighted
+mlm2w <- lm(users ~ willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude, weights)
+summary(mlm2w)
+```
+
+## Demographics of Respondents
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables + weighted
+mlm3w <- lm(users ~ marital + parents + children + household + education + income, data = all_data, na.action = na.exclude, weights)
+summary(mlm3w)
+```
+
+
+
+
+
+
+
+
+
+
+
+
 # Working Data
 
 This time I will start with the data frames with the observations I am looking at but not summarized by mean:
