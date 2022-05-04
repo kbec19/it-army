@@ -56,7 +56,7 @@ I moved the data into various forms to best explore ways to analyze it.
 
 ```{r code_folding = TRUE}
 #load the data
-ddos_daily <- read_csv("active_observations.csv")
+ddos_daily <- read_csv("ddos_observations.csv")
 #assign column names to represent variables accurately
 colnames(ddos_daily) <- c("Country", "Population", "Region", "March2", "March3", "March4", "March5", "March6", "March7", "March8", "March9", "March10", "March11")
 #summarize the data
@@ -82,7 +82,7 @@ However, I am not going to examine the panel data; I am only going to look at th
 
 ```{r code_folding = TRUE}
 #load the data
-ddos_cumulative <- read_csv("cumulative_observations.csv")
+ddos_cumulative <- read_csv("ddos_cumulative.csv")
 #summarize the data
 options(scipen = 999)
 head(ddos_cumulative)
@@ -96,34 +96,55 @@ It is still important to be able to visualize the dramatic change in user count 
 * Users of the DDOS tool from each region as of the the given day
 
 ```{r code_folding = TRUE}
-ddos_regions <- read_csv("regional_observations.csv", 
+ddos_regions2 <- read_csv("ddos_regional2.csv", 
     col_types = cols(Date = col_date(format = "%m/%d/%Y")))
-ddos_regions <- as_tibble(ddos_regions) 
-ddos_regions
+ddos_regions2 <- as_tibble(ddos_regions2) 
+ddos_regions2
 ```
 
 ```{r code_folding = TRUE}
 
-ggplot(ddos_regions, aes(x = Date)) +
+ggplot(ddos_regions2, aes(x = Date)) +
   geom_line(aes(y = Africa, colour = "Africa")) +
-  geom_line(aes(y = Central_America, colour = "Central America")) +
-    geom_line(aes(y = Central_America, colour = "Central America")) +
-    geom_line(aes(y = Central_Asia, colour = "Central Asia")) +
-    geom_line(aes(y = Eastern_Europe, colour = "Eastern Europe")) +
-    geom_line(aes(y = North_America, colour = "North America")) +
-    geom_line(aes(y = Northern_Europe, colour = "Northern Europe")) +
-    geom_line(aes(y = Oceania, colour = "Oceania")) +
-    geom_line(aes(y = Southeastern_Asia, colour = "Southeastern Asia")) +
-    geom_line(aes(y = South_America, colour = "South America")) +
-    geom_line(aes(y = Southern_Europe, colour = "Southern Europe")) +
-    geom_line(aes(y = Western_Asia, colour = "Western Asia")) +
-    geom_line(aes(y = Western_Europe, colour = "Western Europe")) +
+  geom_line(aes(y = Asia, colour = "Asia")) +
+  geom_line(aes(y = Eurasia, colour = "Eurasia")) +
+  geom_line(aes(y = Europe, colour = "Europe")) +
+  geom_line(aes(y = North_America, colour = "North America")) +
+  geom_line(aes(y = Oceania, colour = "Oceania")) +
+  geom_line(aes(y = South_America, colour = "South America")) +
+  geom_line(aes(y = Ukraine, colour = "Ukraine")) +
   scale_colour_discrete((name = "Region")) +
   xlab("Dates") +
   ylab("Users") +
-  ggtitle("Increase in Users by Date") +
+  ggtitle("Increase in Regional Users by Date") +
   theme_minimal()
 ```
+
+If we eliminate the most significant location of users (Europe) it is simply easier to get an idea of how the users from the remaining regions increased over time. 
+
+```{r code_folding = TRUE}
+
+ddos_regions2 <- read_csv("ddos_regional2.csv", 
+    col_types = cols(Date = col_date(format = "%m/%d/%Y")))
+ddos_regions2 <- as_tibble(ddos_regions2) 
+ddos_regions2
+
+ggplot(ddos_regions2, aes(x = Date)) +
+  geom_line(aes(y = Africa, colour = "Africa")) +
+  geom_line(aes(y = Asia, colour = "Asia")) +
+  geom_line(aes(y = Eurasia, colour = "Eurasia")) +
+  geom_line(aes(y = North_America, colour = "North America")) +
+  geom_line(aes(y = Oceania, colour = "Oceania")) +
+  geom_line(aes(y = South_America, colour = "South America")) +
+  geom_line(aes(y = Ukraine, colour = "Ukraine")) +
+  scale_colour_discrete((name = "Region")) +
+  xlab("Dates") +
+  ylab("Users") +
+  ggtitle("Increase in Non-European Users by Date") +
+  theme_minimal()
+```
+
+And the total users over time.
 
 ```{r code_folding = TRUE}
 ddos_time <- read_csv("daily_observations.csv", 
@@ -133,7 +154,7 @@ gg <- ggplot(ddos_time, aes(x = Date)) +
   geom_line(aes(y = Total)) +
   xlab("Dates") +
   ylab("Users") +
-  ggtitle("Increase in Users by Date") +
+  ggtitle("Increase in Total Users by Date") +
   theme_minimal()
 gg
 ```
@@ -144,9 +165,9 @@ I'll start with a basic visualization of the relationship between the population
 
 ```{r code_folding=TRUE}
 #create plot
-ggplot(ddos_cumulative, aes(x = log(Population), y = log(Users), color = Region)) +
+ggplot(ddos_cumulative, aes(x = log(population), y = log(users), color = region)) +
   geom_point () +
-  facet_wrap("Region")
+  facet_wrap("region")
 ```
 
 ### Linear Model of Population and Users
@@ -156,9 +177,9 @@ What I want to look at is the linear model of the relationship between the popul
 I'll first simplify my data set to only contain the columns I am looking at here.
 
 ```{r code_folding=TRUE}
-pop_df <- ddos_cumulative %>% 
-  select(c(Population, Users))
-gg1 <- ggplot(pop_df, aes(x=Population, y=Users)) +
+pop_users <- ddos_cumulative %>% 
+  select(c(population, users))
+gg1 <- ggplot(pop_users, aes(x=population, y=users)) +
    geom_point() +
    geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="cornflowerblue") +
    labs(title= "Population and Users",
@@ -172,7 +193,7 @@ gg1
 That's a mess. I want to take the log() of the data to achieve a better look at the model
 
 ```{r}
-gg1b <- ggplot(pop_df, aes(x=log(Population), y=log(Users))) +
+gg1b <- ggplot(pop_users, aes(x=log(population), y=log(users))) +
   geom_point() +
   geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="cornflowerblue") +
    labs(title= "Log: Population and Users",
@@ -186,8 +207,8 @@ gg1b
 On first look at this relationship, it seems clear that there is no correlation between a country's population and the number of users of the DDOS tool.
 
 ```{r code_folding=TRUE}
-ddos_pop_lm <- lm(Population~Users, data = pop_df)
-summary(ddos_pop_lm)
+pop_users_lm <- lm(population~users, data = pop_users)
+summary(pop_users_lm)
 ```
 
 ## IVS Data
@@ -239,78 +260,24 @@ head(scale_users_4)
 
 ### Importance to Respondents
 
-There are some changes needed to make the data more manageable. I want to clean up some of the data by assigning all negative values representing various codes for no available observation to "NA" when applicable. 
+There are some changes needed to make the data more manageable. I have cleaned up some of the data by assigning all negative values representing various codes for no available observation to "NA" when applicable. I saved the resulting means by country as an offline data set that I will import.
 
 ```{r code_folding = TRUE}
-important_na <- read.csv("important_na.csv")
-important_na <- as_tibble(important_na)
-names(important_na)[1] <- 'country'
+#important_na <- read.csv("important_na.csv")
+#important_na <- as_tibble(important_na)
+#names(important_na)[1] <- 'country'
 
 #find mean of each column
-important <- important_na %>%
-  group_by(country) %>%
-  summarise(
-    family = mean(family, na.rm = TRUE),
-    friends = mean(friends, na.rm = TRUE),
-    leisure = mean(leisure, na.rm = TRUE),
-    politics = mean(politics, na.rm = TRUE),
-    work = mean(work, na.rm = TRUE),
-    religion = mean(religion, na.rm = TRUE)
-  )
-summary(important)
-
-shapiro.test(all_data$users)
-
-```
-
-### Political Inclinations of Respondents
-
-```{r code_folding = TRUE}
-#read in the 
-politics_na <- read_csv("politics_na.csv", 
-    col_types = cols(willing_fight = col_double(), 
-        interest_politics = col_double(), 
-        sign_petition = col_double(), join_boycott = col_double(), 
-        attend_demonstration = col_double(), 
-        join_strikes = col_double(), self_id = col_double()))
-names(politics_na)[1] <- 'country'
-#find mean of each column
-politics <- politics_na %>%
-  group_by(country) %>%
-  summarise(
-    willingness = mean(willing_fight, na.rm = TRUE),
-    petition = mean(sign_petition, na.rm = TRUE),
-    boycott = mean(join_boycott, na.rm = TRUE),
-    demonstration = mean(attend_demonstration, na.rm = TRUE),
-    strikes = mean(join_strikes, na.rm = TRUE),
-    identity = mean(self_id, na.rm = TRUE)
-  )
-
-summary(politics)
-```
-
-### Demographics of Respondents
-
-```{r code_folding = TRUE}
-#read in the data
-demographics_na <- read_csv("demographics_na.csv",
-    col_types = cols(marital_status = col_double(), 
-        live_parents = col_double(), children = col_double(), 
-        household = col_double(), highest_ed = col_double(), 
-        employment = col_double(), income = col_double()))
-#find mean of each column
-demographics <- demographics_na %>%
-  group_by(country) %>%
-  summarise(
-    marital = mean(marital_status, na.rm = TRUE),
-    parents = mean(live_parents, na.rm = TRUE),
-    children = mean(children, na.rm = TRUE),
-    household = mean(household, na.rm = TRUE),
-    education = mean(highest_ed, na.rm = TRUE),
-    income = mean(income, na.rm = TRUE)
-  )
-
-summary(demographics)
+#important <- important_na %>%
+  #group_by(country) %>%
+  #summarise(
+    #family = mean(family, na.rm = TRUE),
+    #friends = mean(friends, na.rm = TRUE),
+    #leisure = mean(leisure, na.rm = TRUE),
+    #politics = mean(politics, na.rm = TRUE),
+    #work = mean(work, na.rm = TRUE),
+    #religion = mean(religion, na.rm = TRUE)
+  #)
 ```
 
 ## Matching Data
