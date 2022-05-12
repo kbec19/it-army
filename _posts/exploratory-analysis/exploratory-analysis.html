@@ -2531,12 +2531,12 @@ Population and Users</a></li>
 <ul>
 <li><a href="#reading-in-data">Reading in Data</a></li>
 <li><a href="#transforming-ivs-data">Transforming IVS Data</a></li>
-<li><a href="#importance-to-respondents">Importance to
-Respondents</a></li>
 </ul></li>
-<li><a href="#matching-data">Matching Data</a></li>
-</ul></li>
+<li><a href="#matching-data">Matching Data</a>
+<ul>
 <li><a href="#using-scaled-data">Using Scaled Data</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -2567,11 +2567,11 @@ it.</p>
 <li>Country Name</li>
 <li>Population (as indicated by the U.S. CIA World factbook
 website)</li>
-<li>Region (as indicated by the UN classifications)</li>
+<li>Region (as indicated by the U.S. CIA World factbook website)</li>
 <li>Columns for each date being observed from March 2 - March 11 of DDOS
 users from each country. This is difficult to use for analysis because
 the daily observations do NOT represent new users added on that day;
-rather, the daily observations represent the culumative users from each
+rather, the daily observations represent the cumulative users from each
 country as of that day.</li>
 </ul>
 <div class="layout-chunk" data-layout="l-body">
@@ -2905,6 +2905,8 @@ F-statistic: 0.1024 on 1 and 96 DF,  p-value: 0.7497</code></pre>
 <p>This brings in an overwhelming 135,000 observations of 231 variables.
 I selected the columns I am interested in working with and saved as a
 .csv file, which I will read in for the rest of the analysis.</p>
+<p>A full accounting of the variables and descriptions are in the
+“About” tab of this GitHub Page.</p>
 <p>To make matching easier, I used the “countrycode” package to assign
 proper country names to the ISO-3 numeric code from the data set.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2925,29 +2927,29 @@ Show code
 <span class="co">#library(countrycode)</span>
 <span class="co">#ivs_df$country.name &lt;- countrycode(ivs_df$cntry, origin = &quot;iso3n&quot;, destination = &quot;country.name&quot;)</span>
 
-<span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;ivs_df_names.csv&quot;</span><span class="op">)</span>
+<span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;ivs-df-clean.csv&quot;</span><span class="op">)</span>
 <span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">&#39;country&#39;</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span>
 </code></pre>
 </div>
 </details>
-<pre><code># A tibble: 6 x 75
-  country pwght wght_eq1000 respint  A001  A002  A003  A004  A005
-  &lt;chr&gt;   &lt;dbl&gt;       &lt;dbl&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-1 Albania 0.140       0.697       1     2     1     2     3     2
-2 Albania 0.140       0.697       1     1     1     4     4     1
-3 Albania 0.140       0.697       1     1     2     2     4     1
-4 Albania 0.140       0.697       1     1     2     2     4     1
-5 Albania 0.140       0.697       1     1     1     2     4     1
-6 Albania 0.140       0.697       2     1     3     3     4     1
-# ... with 66 more variables: A006 &lt;int&gt;, A008 &lt;int&gt;, A009 &lt;int&gt;,
-#   A170 &lt;int&gt;, A173 &lt;int&gt;, E012 &lt;int&gt;, E023 &lt;int&gt;, E025 &lt;int&gt;,
-#   E026 &lt;int&gt;, E027 &lt;int&gt;, E028 &lt;int&gt;, E033 &lt;int&gt;, E069_01 &lt;int&gt;,
-#   E069_02 &lt;int&gt;, E069_04 &lt;int&gt;, E069_05 &lt;int&gt;, E069_06 &lt;int&gt;,
-#   E069_07 &lt;int&gt;, E069_08 &lt;int&gt;, E069_18A &lt;int&gt;, E069_18 &lt;int&gt;,
-#   E069_11 &lt;int&gt;, E069_12 &lt;int&gt;, E069_13 &lt;int&gt;, E069_14 &lt;int&gt;,
-#   E069_17 &lt;int&gt;, E069_20 &lt;int&gt;, E111_01 &lt;int&gt;, E114 &lt;int&gt;, ...</code></pre>
+<pre><code># A tibble: 6 x 72
+  country weight imp_family imp_friends imp_leisure imp_politics
+  &lt;chr&gt;    &lt;dbl&gt;      &lt;int&gt;       &lt;int&gt;       &lt;int&gt;        &lt;int&gt;
+1 Albania  0.697          2           1           2            3
+2 Albania  0.697          1           1           4            4
+3 Albania  0.697          1           2           2            4
+4 Albania  0.697          1           2           2            4
+5 Albania  0.697          1           1           2            4
+6 Albania  0.697          1           3           3            4
+# ... with 66 more variables: imp_work &lt;int&gt;, imp_religion &lt;int&gt;,
+#   sat_happiness &lt;int&gt;, sat_health &lt;int&gt;, sat_life &lt;int&gt;,
+#   sat_control &lt;int&gt;, willingness_fight &lt;int&gt;,
+#   interest_politics &lt;int&gt;, prop_petition &lt;int&gt;,
+#   prop_boycotts &lt;int&gt;, prop_demonstrations &lt;int&gt;,
+#   prop_strikes &lt;int&gt;, self_position &lt;int&gt;, conf_churches &lt;int&gt;,
+#   conf_armed &lt;int&gt;, conf_press &lt;int&gt;, conf_unions &lt;int&gt;, ...</code></pre>
 </div>
 <h3 id="transforming-ivs-data">Transforming IVS Data</h3>
 <h4 id="preprocessing">Preprocessing</h4>
@@ -2957,6 +2959,93 @@ Additionally, some response have negative serial numbers. Furthermore, I
 excluded variables that have a response structure that do not follow the
 structures that are congruous to the structure of the majority of the
 responses.</p>
+<h4 id="grouping-by-mean">Grouping by Mean</h4>
+<p>There are some changes needed to make the data more manageable. I
+have cleaned up some of the data by assigning all negative values
+representing various codes for no available observation to “NA” when
+applicable. I took means when applicable saved the resulting means by
+country as a series of data sets I saved offline that I will import.</p>
+<h4 id="example-of-how-i-manipulated-the-data-before-saving">Example of
+how I manipulated the data before saving:</h4>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#select relevant data</span>
+<span class="co">#ivs_important &lt;- select(ivs_clean,1:8)</span>
+
+<span class="co">#find mean of each column</span>
+<span class="co">#important &lt;- ivs_important %&gt;%</span>
+  <span class="co">#group_by(country) %&gt;%</span>
+  <span class="co">#summarise(</span>
+    <span class="co">#family = mean(imp_family, na.rm = TRUE),</span>
+    <span class="co">#friends = mean(imp_friends, na.rm = TRUE),</span>
+    <span class="co">#leisure = mean(imp_leisure, na.rm = TRUE),</span>
+    <span class="co">#politics = mean(imp_politics, na.rm = TRUE),</span>
+    <span class="co">#work = mean(imp_work, na.rm = TRUE),</span>
+    <span class="co">#religion = mean(imp_religion, na.rm = TRUE)</span>
+    <span class="co">#)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<h4 id="looking-at-data-frames-representing-country-means">Looking at
+data frames representing country means:</h4>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">important</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">&quot;important.csv&quot;</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">important</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 6 x 8
+     X1 country   family friends leisure politics  work religion
+  &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1     1 Albania     1.02    1.73    2.01     3.30  1.20     2.15
+2     2 Andorra     1.12    1.54    1.42     2.94  1.53     2.97
+3     3 Argentina   1.09    1.54    1.81     2.81  1.47     2.39
+4     4 Armenia     1.11    1.74    1.99     2.79  1.47     1.83
+5     5 Australia   1.11    1.48    1.65     2.41  2.00     2.90
+6     6 Austria     1.20    1.45    1.63     2.51  1.67     2.64</code></pre>
+</div>
+<h2 id="matching-data">Matching Data</h2>
+<p>When eliminating the countries who did not have a profile in the IVS
+dataset from my observation data, I lost approximately 2,000
+observations and have 67 countries to compare. I created a data frame of
+this information to use going forward.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">&quot;integrated_data.csv&quot;</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 6 x 23
+  country   population region    users family friends leisure politics
+  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 Albania      3088385 Southern~    57   1.02    1.73    2.01     3.30
+2 Andorra        85645 Southern~     6   1.12    1.54    1.42     2.94
+3 Argentina   45864941 South Am~    11   1.09    1.54    1.81     2.81
+4 Armenia      3011609 Western ~    16   1.11    1.74    1.99     2.79
+5 Australia   25809973 Oceania     717   1.11    1.48    1.65     2.41
+6 Austria      8884864 Western ~  3276   1.20    1.45    1.63     2.51
+# ... with 15 more variables: work &lt;dbl&gt;, religion &lt;dbl&gt;,
+#   willingness &lt;dbl&gt;, petition &lt;dbl&gt;, boycott &lt;dbl&gt;,
+#   demonstration &lt;dbl&gt;, strikes &lt;dbl&gt;, identity &lt;dbl&gt;,
+#   marital &lt;dbl&gt;, parents &lt;dbl&gt;, children &lt;dbl&gt;, household &lt;dbl&gt;,
+#   education &lt;dbl&gt;, income &lt;dbl&gt;, scaled_weights &lt;dbl&gt;</code></pre>
+</div>
+<h3 id="using-scaled-data">Using Scaled Data</h3>
 <h4 id="normalization">Normalization</h4>
 <p>Some of the variables have different value labels and maximum values,
 even within the same family of topics. For example, I may want to
@@ -2994,70 +3083,8 @@ Show code
 5 1.162912
 6 1.745165</code></pre>
 </div>
-<h3 id="importance-to-respondents">Importance to Respondents</h3>
-<p>There are some changes needed to make the data more manageable. I
-have cleaned up some of the data by assigning all negative values
-representing various codes for no available observation to “NA” when
-applicable. I saved the resulting means by country as an offline data
-set that I will import.</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-Show code
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#important_na &lt;- read.csv(&quot;important_na.csv&quot;)</span>
-<span class="co">#important_na &lt;- as_tibble(important_na)</span>
-<span class="co">#names(important_na)[1] &lt;- &#39;country&#39;</span>
-
-<span class="co">#find mean of each column</span>
-<span class="co">#important &lt;- important_na %&gt;%</span>
-  <span class="co">#group_by(country) %&gt;%</span>
-  <span class="co">#summarise(</span>
-    <span class="co">#family = mean(family, na.rm = TRUE),</span>
-    <span class="co">#friends = mean(friends, na.rm = TRUE),</span>
-    <span class="co">#leisure = mean(leisure, na.rm = TRUE),</span>
-    <span class="co">#politics = mean(politics, na.rm = TRUE),</span>
-    <span class="co">#work = mean(work, na.rm = TRUE),</span>
-    <span class="co">#religion = mean(religion, na.rm = TRUE)</span>
-  <span class="co">#)</span>
-</code></pre>
-</div>
-</details>
-</div>
-<h2 id="matching-data">Matching Data</h2>
-<p>When eliminating the countries who did not have a profile in the IVS
-dataset from my observation data, I lost approximately 2,000
-observations and have 67 countries to compare. I created a data frame of
-this information to use going forward.</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-Show code
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">&quot;integrated_data.csv&quot;</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span>
-</code></pre>
-</div>
-</details>
-<pre><code># A tibble: 6 x 24
-  country   population region    users family friends leisure politics
-  &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-1 Albania      3088385 Southern~    57   1.02    1.73    2.01     3.30
-2 Andorra        85645 Southern~     6   1.12    1.54    1.42     2.94
-3 Argentina   45864941 South Am~    11   1.09    1.54    1.81     2.81
-4 Armenia      3011609 Western ~    16   1.11    1.74    1.99     2.79
-5 Australia   25809973 Oceania     717   1.11    1.48    1.65     2.41
-6 Austria      8884864 Western ~  3276   1.20    1.45    1.63     2.51
-# ... with 16 more variables: work &lt;dbl&gt;, religion &lt;dbl&gt;,
-#   willingness &lt;dbl&gt;, petition &lt;dbl&gt;, boycott &lt;dbl&gt;,
-#   demonstration &lt;dbl&gt;, strikes &lt;dbl&gt;, identity &lt;dbl&gt;,
-#   marital &lt;dbl&gt;, parents &lt;dbl&gt;, children &lt;dbl&gt;, household &lt;dbl&gt;,
-#   education &lt;dbl&gt;, income &lt;dbl&gt;, weights &lt;dbl&gt;,
-#   scaled_weights &lt;dbl&gt;</code></pre>
-</div>
-<h1 id="using-scaled-data">Using Scaled Data</h1>
+<h4 id="linear-regression-scaled-vs.-unscaled-data">Linear Regression:
+Scaled vs. Unscaled Data</h4>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -3065,16 +3092,16 @@ Show code
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Join scaled values of users to summary data</span>
-<span class="va">all_data</span><span class="op">$</span><span class="va">users4</span> <span class="op">&lt;-</span> <span class="va">scale_4</span>
+<span class="va">all_data</span><span class="op">$</span><span class="va">scaled_users</span> <span class="op">&lt;-</span> <span class="va">scale_4</span>
 <span class="co">#Linear regression of &quot;importance&quot; variables + scaled user variable  </span>
-<span class="va">lm_imp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users4</span> <span class="op">~</span> <span class="va">family</span> <span class="op">+</span> <span class="va">friends</span> <span class="op">+</span> <span class="va">leisure</span> <span class="op">+</span> <span class="va">politics</span> <span class="op">+</span> <span class="va">work</span> <span class="op">+</span> <span class="va">religion</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="va">lm_imp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">scaled_users</span> <span class="op">~</span> <span class="va">family</span> <span class="op">+</span> <span class="va">friends</span> <span class="op">+</span> <span class="va">leisure</span> <span class="op">+</span> <span class="va">politics</span> <span class="op">+</span> <span class="va">work</span> <span class="op">+</span> <span class="va">religion</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_imp</span><span class="op">)</span>
 </code></pre>
 </div>
 </details>
 <pre><code>
 Call:
-lm(formula = users4 ~ family + friends + leisure + politics + 
+lm(formula = scaled_users ~ family + friends + leisure + politics + 
     work + religion, data = all_data, na.action = na.exclude)
 
 Residuals:
@@ -3136,7 +3163,7 @@ Residual standard error: 1847 on 60 degrees of freedom
 Multiple R-squared:  0.1275,    Adjusted R-squared:  0.04025 
 F-statistic: 1.461 on 6 and 60 DF,  p-value: 0.2069</code></pre>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

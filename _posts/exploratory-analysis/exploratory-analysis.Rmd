@@ -52,8 +52,8 @@ I moved the data into various forms to best explore ways to analyze it.
 
 * Country Name
 * Population (as indicated by the U.S. CIA World factbook website)
-* Region (as indicated by the UN classifications)
-* Columns for each date being observed from March 2 - March 11 of DDOS users from each country. This is difficult to use for analysis because the daily observations do NOT represent new users added on that day; rather, the daily observations represent the culumative users from each country as of that day.
+* Region (as indicated by the U.S. CIA World factbook website)
+* Columns for each date being observed from March 2 - March 11 of DDOS users from each country. This is difficult to use for analysis because the daily observations do NOT represent new users added on that day; rather, the daily observations represent the cumulative users from each country as of that day.
 
 ```{r code_folding = TRUE}
 #load the data
@@ -220,6 +220,8 @@ The next data source I want to explore is the IVS data set.
 
 This brings in an overwhelming 135,000 observations of 231 variables. I selected the columns I am interested in working with and saved as a .csv file, which I will read in for the rest of the analysis.
 
+A full accounting of the variables and descriptions are in the "About" tab of this GitHub Page.
+
 To make matching easier, I used the "countrycode" package to assign proper country names to the ISO-3 numeric code from the data set.
 
 ```{r code_folding = TRUE}
@@ -235,7 +237,7 @@ To make matching easier, I used the "countrycode" package to assign proper count
 #library(countrycode)
 #ivs_df$country.name <- countrycode(ivs_df$cntry, origin = "iso3n", destination = "country.name")
 
-ivs_clean <- read.csv("ivs_df_names.csv")
+ivs_clean <- read.csv("ivs-df-clean.csv")
 ivs_clean <- as_tibble(ivs_clean)
 names(ivs_clean)[1] <- 'country'
 head(ivs_clean)
@@ -246,6 +248,47 @@ head(ivs_clean)
 #### Preprocessing
 
 In the original data in the IVS datasets, there are some meaningless choices in the value labels such as “Not asked,” “NA,” and “DK.” Additionally, some response have negative serial numbers. Furthermore, I excluded variables that have a response structure that do not follow the structures that are congruous to the structure of the majority of the responses.
+
+#### Grouping by Mean
+
+There are some changes needed to make the data more manageable. I have cleaned up some of the data by assigning all negative values representing various codes for no available observation to "NA" when applicable. I took means when applicable saved the resulting means by country as a series of data sets I saved offline that I will import.
+
+#### Example of how I manipulated the data before saving:
+
+```{r code_folding = TRUE}
+#select relevant data
+#ivs_important <- select(ivs_clean,1:8)
+
+#find mean of each column
+#important <- ivs_important %>%
+  #group_by(country) %>%
+  #summarise(
+    #family = mean(imp_family, na.rm = TRUE),
+    #friends = mean(imp_friends, na.rm = TRUE),
+    #leisure = mean(imp_leisure, na.rm = TRUE),
+    #politics = mean(imp_politics, na.rm = TRUE),
+    #work = mean(imp_work, na.rm = TRUE),
+    #religion = mean(imp_religion, na.rm = TRUE)
+    #)
+```
+
+#### Looking at data frames representing country means:
+
+```{r code_folding = TRUE}
+important <- read_csv("important.csv")
+head(important)
+```
+
+## Matching Data
+
+When eliminating the countries who did not have a profile in the IVS dataset from my observation data, I lost approximately 2,000 observations and have 67 countries to compare. I created a data frame of this information to use going forward.
+
+```{r code_folding = TRUE}
+all_data <- read_csv("integrated_data.csv")
+head(all_data)
+```
+
+### Using Scaled Data
 
 #### Normalization
 
@@ -259,45 +302,13 @@ scale_users_4 <- as.data.frame(scale_4)
 head(scale_users_4)
 ```
 
-### Importance to Respondents
-
-There are some changes needed to make the data more manageable. I have cleaned up some of the data by assigning all negative values representing various codes for no available observation to "NA" when applicable. I saved the resulting means by country as an offline data set that I will import.
-
-```{r code_folding = TRUE}
-#important_na <- read.csv("important_na.csv")
-#important_na <- as_tibble(important_na)
-#names(important_na)[1] <- 'country'
-
-#find mean of each column
-#important <- important_na %>%
-  #group_by(country) %>%
-  #summarise(
-    #family = mean(family, na.rm = TRUE),
-    #friends = mean(friends, na.rm = TRUE),
-    #leisure = mean(leisure, na.rm = TRUE),
-    #politics = mean(politics, na.rm = TRUE),
-    #work = mean(work, na.rm = TRUE),
-    #religion = mean(religion, na.rm = TRUE)
-  #)
-```
-
-## Matching Data
-
-When eliminating the countries who did not have a profile in the IVS dataset from my observation data, I lost approximately 2,000 observations and have 67 countries to compare. I created a data frame of this information to use going forward.
-
-```{r code_folding = TRUE}
-all_data <- read_csv("integrated_data.csv")
-head(all_data)
-```
-
-
-# Using Scaled Data
+#### Linear Regression: Scaled vs. Unscaled Data
 
 ```{r code_folding = TRUE}
 #Join scaled values of users to summary data
-all_data$users4 <- scale_4
+all_data$scaled_users <- scale_4
 #Linear regression of "importance" variables + scaled user variable  
-lm_imp <- lm(users4 ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
+lm_imp <- lm(scaled_users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
 summary(lm_imp)
 ```
 
