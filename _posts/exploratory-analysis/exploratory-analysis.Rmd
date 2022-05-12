@@ -302,7 +302,7 @@ scale_users_4 <- as.data.frame(scale_4)
 head(scale_users_4)
 ```
 
-#### Linear Regression: Scaled vs. Unscaled Data
+#### Linear Regression: Scaled Data
 
 ```{r code_folding = TRUE}
 #Join scaled values of users to summary data
@@ -311,6 +311,8 @@ all_data$scaled_users <- scale_4
 lm_imp <- lm(scaled_users ~ family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
 summary(lm_imp)
 ```
+
+#### Linear Regression: Unscaled Data
 
 Compare that to the un-scaled user data. I'm not sure that scaling will make a difference in the data integrity using regression analysis going forward.
 
