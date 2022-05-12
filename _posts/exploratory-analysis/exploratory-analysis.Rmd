@@ -5,6 +5,7 @@ description: |
 preview: usersbyday.png
 categories:
   - statistics
+  - quantitative data analysis
   - final project
   - IT Army of Ukraine
 author:
@@ -301,6 +302,8 @@ summary(lm_imp)
 ```
 
 Compare that to the un-scaled user data. I'm not sure that scaling will make a difference in the data integrity using regression analysis going forward.
+
+However, this is very informative to me as a novice user of linear models to understand how scaling affects the degrees of freedom, but not the adjusted R-squared or p-values.
 
 ```{r code_folding = TRUE}
 
