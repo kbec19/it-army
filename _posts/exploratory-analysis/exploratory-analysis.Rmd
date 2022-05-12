@@ -97,22 +97,23 @@ It is still important to be able to visualize the dramatic change in user count 
 * Users of the DDOS tool from each region as of the the given day
 
 ```{r code_folding = TRUE}
-ddos_regions2 <- read_csv("ddos_regional2.csv", 
+ddos_regions <- read_csv("ddos_by_region.csv", 
     col_types = cols(Date = col_date(format = "%m/%d/%Y")))
-ddos_regions2 <- as_tibble(ddos_regions2) 
-ddos_regions2
+ddos_regions <- as_tibble(ddos_regions) 
+ddos_regions
 ```
 
 ```{r code_folding = TRUE}
 
-ggplot(ddos_regions2, aes(x = Date)) +
+ggplot(ddos_regions, aes(x = Date)) +
   geom_line(aes(y = Africa, colour = "Africa")) +
   geom_line(aes(y = Asia, colour = "Asia")) +
-  geom_line(aes(y = Eurasia, colour = "Eurasia")) +
   geom_line(aes(y = Europe, colour = "Europe")) +
+  geom_line(aes(y = Middle_East, colour = "Middle East")) +
   geom_line(aes(y = North_America, colour = "North America")) +
   geom_line(aes(y = Oceania, colour = "Oceania")) +
   geom_line(aes(y = South_America, colour = "South America")) +
+  geom_line(aes(y = Southeast_Asia, colour = "Southeast Asia")) + 
   geom_line(aes(y = Ukraine, colour = "Ukraine")) +
   scale_colour_discrete((name = "Region")) +
   xlab("Dates") +
@@ -124,19 +125,14 @@ ggplot(ddos_regions2, aes(x = Date)) +
 If we eliminate the most significant location of users (Europe) it is simply easier to get an idea of how the users from the remaining regions increased over time. 
 
 ```{r code_folding = TRUE}
-
-ddos_regions2 <- read_csv("ddos_regional2.csv", 
-    col_types = cols(Date = col_date(format = "%m/%d/%Y")))
-ddos_regions2 <- as_tibble(ddos_regions2) 
-ddos_regions2
-
-ggplot(ddos_regions2, aes(x = Date)) +
+ggplot(ddos_regions, aes(x = Date)) +
   geom_line(aes(y = Africa, colour = "Africa")) +
   geom_line(aes(y = Asia, colour = "Asia")) +
-  geom_line(aes(y = Eurasia, colour = "Eurasia")) +
+  geom_line(aes(y = Middle_East, colour = "Middle East")) +
   geom_line(aes(y = North_America, colour = "North America")) +
   geom_line(aes(y = Oceania, colour = "Oceania")) +
   geom_line(aes(y = South_America, colour = "South America")) +
+  geom_line(aes(y = Southeast_Asia, colour = "Southeast Asia")) + 
   geom_line(aes(y = Ukraine, colour = "Ukraine")) +
   scale_colour_discrete((name = "Region")) +
   xlab("Dates") +
