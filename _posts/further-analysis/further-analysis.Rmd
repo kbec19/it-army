@@ -4,6 +4,7 @@ description: |
   DACSS 603 Final Project Work: "Further Analysis
 categories:
   - statistics
+  - quantitative data analysis
   - final project
   - IT Army of Ukraine
 author:
@@ -12,6 +13,8 @@ date: 2022-04-26
 output:
   distill::distill_article:
     toc: true
+    code_folding: true
+    
 ---
 
 
