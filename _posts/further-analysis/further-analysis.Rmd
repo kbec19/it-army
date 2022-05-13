@@ -29,6 +29,7 @@ library(cowplot)
 library(broom)
 library(scales)
 library(here)
+library(magrittr)
 ```
 
 # Reading in Data
@@ -40,7 +41,17 @@ Continuing this post by reading in the data I put together in my exploratory ana
 ivs_clean <- read.csv("ivs-df-clean.csv")
 ivs_clean <- as_tibble(ivs_clean)
 names(ivs_clean)[1] <- 'country'
+head(ivs_clean)
 ```
+
+## Saving other data for potential review
+
+```{r code_folding = TRUE}
+ivs_right <- ivs_clean %>%
+  group_by(country) %>%
+  select(country, right_surveillance, right_monitor, right_collect)
+```
+
 
 ```{r code_folding = TRUE}
 #integrated data
@@ -298,9 +309,31 @@ mlm7b <- lm(users ~ demonstration + strikes + education, data = all_data, na.act
 summary(mlm7b)
 ```
 
+# Government Right to Access
 
+```{r code_folding=TRUE}
+ivs_right <- read.csv("government_rights.csv")
+names(ivs_right)[1] <- 'country'
+head(ivs_right)
+```
 
+## Exploratory Model
 
+```{r code_folding=TRUE}
+right <- lm(users ~ surveillance + monitor + collect, data = ivs_right)
+summary(right)
+```
+removing highest p-value
 
+```{r code_folding=TRUE}
+right2 <- lm(users ~ surveillance + collect, data = ivs_right)
+summary(right2)
+```
 
+removing highest p-value
+
+```{r code_folding=TRUE}
+right3 <- lm(users ~ collect, data = ivs_right)
+summary(right3)
+```
 

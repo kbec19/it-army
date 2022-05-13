@@ -3142,7 +3142,11 @@ distill-header .nav a {
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#reading-in-data">Reading in Data</a></li>
+<li><a href="#reading-in-data">Reading in Data</a>
+<ul>
+<li><a href="#saving-other-data-for-potential-review">Saving other data
+for potential review</a></li>
+</ul></li>
 <li><a href="#multiple-linear-regression">Multiple Linear Regression</a>
 <ul>
 <li><a href="#importance-to-respondents">Importance to
@@ -3174,6 +3178,10 @@ Respondents</a></li>
 <li><a href="#the-best-model-i-generated-with-the-weights-function-added">The
 best model I generated with the weights function added</a></li>
 </ul></li>
+<li><a href="#government-right-to-access">Government Right to Access</a>
+<ul>
+<li><a href="#exploratory-model">Exploratory Model</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -3191,6 +3199,38 @@ Show code
 <span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;ivs-df-clean.csv&quot;</span><span class="op">)</span>
 <span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">&#39;country&#39;</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 6 x 72
+  country weight imp_family imp_friends imp_leisure imp_politics
+  &lt;chr&gt;    &lt;dbl&gt;      &lt;int&gt;       &lt;int&gt;       &lt;int&gt;        &lt;int&gt;
+1 Albania  0.697          2           1           2            3
+2 Albania  0.697          1           1           4            4
+3 Albania  0.697          1           2           2            4
+4 Albania  0.697          1           2           2            4
+5 Albania  0.697          1           1           2            4
+6 Albania  0.697          1           3           3            4
+# ... with 66 more variables: imp_work &lt;int&gt;, imp_religion &lt;int&gt;,
+#   sat_happiness &lt;int&gt;, sat_health &lt;int&gt;, sat_life &lt;int&gt;,
+#   sat_control &lt;int&gt;, willingness_fight &lt;int&gt;,
+#   interest_politics &lt;int&gt;, prop_petition &lt;int&gt;,
+#   prop_boycotts &lt;int&gt;, prop_demonstrations &lt;int&gt;,
+#   prop_strikes &lt;int&gt;, self_position &lt;int&gt;, conf_churches &lt;int&gt;,
+#   conf_armed &lt;int&gt;, conf_press &lt;int&gt;, conf_unions &lt;int&gt;, ...</code></pre>
+</div>
+<h2 id="saving-other-data-for-potential-review">Saving other data for
+potential review</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">ivs_right</span> <span class="op">&lt;-</span> <span class="va">ivs_clean</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">right_surveillance</span>, <span class="va">right_monitor</span>, <span class="va">right_collect</span><span class="op">)</span>
 </code></pre>
 </div>
 </details>
@@ -4190,7 +4230,120 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 
 Residual standard error: 7.105e-15 on 1 degrees of freedom</code></pre>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h1 id="government-right-to-access">Government Right to Access</h1>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">ivs_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;government_rights.csv&quot;</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ivs_right</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">&#39;country&#39;</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ivs_right</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>    country surveillance  monitor  collect users
+1   Albania     2.443206 3.027178 2.951220    57
+2   Andorra     2.261952 3.588645 3.569721     6
+3 Argentina     2.499501 3.044865 2.775673    11
+4   Armenia     2.359333 2.657333 2.552000    16
+5 Australia     1.787645 2.877551 2.896856   717
+6   Austria     2.495134 3.085158 3.333333  3276</code></pre>
+</div>
+<h2 id="exploratory-model">Exploratory Model</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">surveillance</span> <span class="op">+</span> <span class="va">monitor</span> <span class="op">+</span> <span class="va">collect</span>, data <span class="op">=</span> <span class="va">ivs_right</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">right</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ surveillance + monitor + collect, data = ivs_right)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1285.4  -692.4  -360.4    10.9 11564.8 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)    -788.8     1407.0  -0.561    0.577
+surveillance   -992.7      847.5  -1.171    0.246
+monitor       -1297.9     1726.1  -0.752    0.455
+collect        2516.6     1533.5   1.641    0.106
+
+Residual standard error: 1855 on 63 degrees of freedom
+Multiple R-squared:  0.0762,    Adjusted R-squared:  0.0322 
+F-statistic: 1.732 on 3 and 63 DF,  p-value: 0.1695</code></pre>
+</div>
+<p>removing highest p-value</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">right2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">surveillance</span> <span class="op">+</span> <span class="va">collect</span>, data <span class="op">=</span> <span class="va">ivs_right</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">right2</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ surveillance + collect, data = ivs_right)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1537.0  -711.1  -431.3    10.0 11813.0 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)    -876.5     1397.4  -0.627   0.5327  
+surveillance  -1278.4      755.1  -1.693   0.0953 .
+collect        1487.9      690.5   2.155   0.0350 *
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1848 on 64 degrees of freedom
+Multiple R-squared:  0.0679,    Adjusted R-squared:  0.03878 
+F-statistic: 2.331 on 2 and 64 DF,  p-value: 0.1054</code></pre>
+</div>
+<p>removing highest p-value</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">right3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">collect</span>, data <span class="op">=</span> <span class="va">ivs_right</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">right3</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ collect, data = ivs_right)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1070.4  -707.3  -573.1  -203.9 12247.4 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -1136.8     1408.7  -0.807    0.423
+collect        620.0      469.2   1.321    0.191
+
+Residual standard error: 1875 on 65 degrees of freedom
+Multiple R-squared:  0.02616,   Adjusted R-squared:  0.01117 
+F-statistic: 1.746 on 1 and 65 DF,  p-value: 0.191</code></pre>
+</div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
