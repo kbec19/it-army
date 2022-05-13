@@ -89,7 +89,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>Further Analysis</title>
 
-  <meta property="description" itemprop="description" content="DACSS 603 Final Project Work: &quot;Further Analysis" />
+  <meta property="description" itemprop="description" content="DACSS 603 Final Project Work: &quot;Further Analysis&quot;" />
 
 
   <!--  https://schema.org/Article -->
@@ -100,19 +100,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Further Analysis" />
   <meta property="og:type" content="article" />
-  <meta property="og:description" content="DACSS 603 Final Project Work: &quot;Further Analysis" />
+  <meta property="og:description" content="DACSS 603 Final Project Work: &quot;Further Analysis&quot;" />
   <meta property="og:locale" content="en_US" />
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary" />
   <meta property="twitter:title" content="Further Analysis" />
-  <meta property="twitter:description" content="DACSS 603 Final Project Work: &quot;Further Analysis" />
+  <meta property="twitter:description" content="DACSS 603 Final Project Work: &quot;Further Analysis&quot;" />
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","categories","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Further Analysis"]},{"type":"character","attributes":{},"value":["DACSS 603 Final Project Work: \"Further Analysis\n"]},{"type":"character","attributes":{},"value":["statistics","final project","IT Army of Ukraine"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Kristina Becvar"]}]}]},{"type":"character","attributes":{},"value":["2022-04-26"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","categories","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Further Analysis"]},{"type":"character","attributes":{},"value":["DACSS 603 Final Project Work: \"Further Analysis\"\n"]},{"type":"character","attributes":{},"value":["education.png"]},{"type":"character","attributes":{},"value":["statistics","quantitative data analysis","final project","IT Army of Ukraine"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Kristina Becvar"]}]}]},{"type":"character","attributes":{},"value":["2022-04-26"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2474,7 +2474,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Further Analysis","description":"DACSS 603 Final Project Work: \"Further Analysis","authors":[{"author":"Kristina Becvar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-04-26T00:00:00.000-05:00","citationText":"Becvar, 2022"}
+{"title":"Further Analysis","description":"DACSS 603 Final Project Work: \"Further Analysis\"","authors":[{"author":"Kristina Becvar","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-04-26T00:00:00.000-05:00","citationText":"Becvar, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2488,11 +2488,12 @@ distill-header .nav a {
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt=tag">statistics</div>
+<div class="dt=tag">quantitative data analysis</div>
 <div class="dt=tag">final project</div>
 <div class="dt=tag">IT Army of Ukraine</div>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>DACSS 603 Final Project Work: “Further Analysis</p></p>
+<p><p>DACSS 603 Final Project Work: “Further Analysis”</p></p>
 </div>
 
 <div class="d-byline">
@@ -2506,14 +2507,440 @@ distill-header .nav a {
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#reading-in-data">Reading in Data</a></li>
+<li><a href="#multiple-linear-regression">Multiple Linear Regression</a>
+<ul>
+<li><a href="#importance-to-respondents">Importance to
+Respondents</a></li>
+<li><a href="#political-inclinations-of-respondents">Political
+Inclinations of Respondents</a></li>
+<li><a href="#demographics-of-respondents">Demographics of
+Respondents</a></li>
+<li><a href="#users-to-politics-and-education">Users to Politics and
+Education</a></li>
+</ul></li>
+<li><a href="#simple-linear-regression">Simple Linear Regression</a>
+<ul>
+<li><a href="#potential-correlation-with-strike-propensity">Potential
+Correlation with Strike Propensity</a></li>
+<li><a href="#potential-correlation-with-education-level">Potential
+Correlation with Education Level</a></li>
+</ul></li>
+<li><a href="#adding-population-weights">Adding Population Weights</a>
+<ul>
+<li><a href="#importance-to-respondents-1">Importance to
+Respondents</a></li>
+<li><a href="#political-inclinations-of-respondents-1">Political
+Inclinations of Respondents</a></li>
+<li><a href="#demographics-of-respondents-1">Demographics of
+Respondents</a></li>
+</ul></li>
 <li><a href="#working-data">Working Data</a></li>
 </ul>
 </nav>
+</div>
+<h1 id="reading-in-data">Reading in Data</h1>
+<p>Continuing this post by reading in the data I put together in my
+exploratory analysis. A full accounting of the variables and
+descriptions are in the “About” tab of this GitHub Page.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#all IVS data</span>
+<span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;ivs-df-clean.csv&quot;</span><span class="op">)</span>
+<span class="va">ivs_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ivs_clean</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">&#39;country&#39;</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#integrated data</span>
+<span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;integrated_data.csv&quot;</span><span class="op">)</span>
+<span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">&#39;country&#39;</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 6 x 23
+  country   population region    users family friends leisure politics
+  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1 Albania   3,088,385  Southern~    57   1.02    1.73    2.01     3.30
+2 Andorra   85,645     Southern~     6   1.12    1.54    1.42     2.94
+3 Argentina 45,864,941 South Am~    11   1.09    1.54    1.81     2.81
+4 Armenia   3,011,609  Western ~    16   1.11    1.74    1.99     2.79
+5 Australia 25,809,973 Oceania     717   1.11    1.48    1.65     2.41
+6 Austria   8,884,864  Western ~  3276   1.20    1.45    1.63     2.51
+# ... with 15 more variables: work &lt;dbl&gt;, religion &lt;dbl&gt;,
+#   willingness &lt;dbl&gt;, petition &lt;dbl&gt;, boycott &lt;dbl&gt;,
+#   demonstration &lt;dbl&gt;, strikes &lt;dbl&gt;, identity &lt;dbl&gt;,
+#   marital &lt;dbl&gt;, parents &lt;dbl&gt;, children &lt;dbl&gt;, household &lt;dbl&gt;,
+#   education &lt;dbl&gt;, income &lt;dbl&gt;, weights &lt;dbl&gt;</code></pre>
+</div>
+<h1 id="multiple-linear-regression">Multiple Linear Regression</h1>
+<h2 id="importance-to-respondents">Importance to Respondents</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;importance&quot; variables</span>
+<span class="va">mlm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">family</span> <span class="op">+</span> <span class="va">friends</span> <span class="op">+</span> <span class="va">leisure</span> <span class="op">+</span> <span class="va">politics</span> <span class="op">+</span> <span class="va">work</span> <span class="op">+</span> <span class="va">religion</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm1</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ family + friends + leisure + politics + 
+    work + religion, data = all_data, na.action = na.exclude)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1678.1  -610.4  -342.4   130.6 11437.5 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   -405.6     5035.6  -0.081    0.936
+family        3368.6     4464.5   0.755    0.453
+friends       -730.0     1476.1  -0.495    0.623
+leisure        153.5     1244.6   0.123    0.902
+politics     -1405.8      877.5  -1.602    0.114
+work          1052.6     1416.3   0.743    0.460
+religion       168.8      512.1   0.330    0.743
+
+Residual standard error: 1847 on 60 degrees of freedom
+Multiple R-squared:  0.1275,    Adjusted R-squared:  0.04025 
+F-statistic: 1.461 on 6 and 60 DF,  p-value: 0.2069</code></pre>
+</div>
+<h2 id="political-inclinations-of-respondents">Political Inclinations of
+Respondents</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;politics&quot; variables</span>
+<span class="va">mlm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">willingness</span> <span class="op">+</span> <span class="va">petition</span> <span class="op">+</span> <span class="va">boycott</span> <span class="op">+</span> <span class="va">demonstration</span> <span class="op">+</span> <span class="va">strikes</span> <span class="op">+</span> <span class="va">identity</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm2</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ willingness + petition + boycott + demonstration + 
+    strikes + identity, data = all_data, na.action = na.exclude)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2609.2  -623.3  -264.6   -26.5 10359.4 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)    -212.45    5053.29  -0.042    0.967  
+willingness    -687.64    1753.88  -0.392    0.697  
+petition      -1328.59    1274.62  -1.042    0.302  
+boycott        1454.15    1765.01   0.824    0.414  
+demonstration -3373.22    1984.10  -1.700    0.095 .
+strikes        3377.05    1452.75   2.325    0.024 *
+identity         31.85     588.76   0.054    0.957  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1893 on 53 degrees of freedom
+  (7 observations deleted due to missingness)
+Multiple R-squared:  0.1779,    Adjusted R-squared:  0.08481 
+F-statistic: 1.911 on 6 and 53 DF,  p-value: 0.09602</code></pre>
+</div>
+<h2 id="demographics-of-respondents">Demographics of Respondents</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;demographics&quot; variables</span>
+<span class="va">mlm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">marital</span> <span class="op">+</span> <span class="va">parents</span> <span class="op">+</span> <span class="va">children</span> <span class="op">+</span> <span class="va">household</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">income</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm3</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ marital + parents + children + household + 
+    education + income, data = all_data, na.action = na.exclude)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1678.0  -748.7  -399.7   136.5 11849.2 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   3333.9     4885.7   0.682    0.498
+marital       -437.5      692.4  -0.632    0.530
+parents      -2125.9     2979.5  -0.714    0.478
+children      -182.7      905.7  -0.202    0.841
+household     -125.1      798.5  -0.157    0.876
+education      534.3      405.4   1.318    0.193
+income        -111.3      482.0  -0.231    0.818
+
+Residual standard error: 1863 on 59 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.1261,    Adjusted R-squared:  0.03726 
+F-statistic: 1.419 on 6 and 59 DF,  p-value: 0.2226</code></pre>
+</div>
+<h2 id="users-to-politics-and-education">Users to Politics and
+Education</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;demographics&quot; variables</span>
+<span class="va">mlm4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span>  <span class="va">politics</span> <span class="op">+</span> <span class="va">identity</span> <span class="op">+</span> <span class="va">education</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm4</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ politics + identity + education, data = all_data, 
+    na.action = na.exclude)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1829.8  -712.7  -307.7   154.6 11057.8 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)   4948.5     5066.1   0.977   0.3329  
+politics     -1943.4      923.4  -2.105   0.0398 *
+identity      -509.0      607.1  -0.838   0.4054  
+education      766.1      345.6   2.217   0.0307 *
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1866 on 56 degrees of freedom
+  (7 observations deleted due to missingness)
+Multiple R-squared:  0.1561,    Adjusted R-squared:  0.1109 
+F-statistic: 3.452 on 3 and 56 DF,  p-value: 0.02244</code></pre>
+</div>
+<h1 id="simple-linear-regression">Simple Linear Regression</h1>
+<h2 id="potential-correlation-with-strike-propensity">Potential
+Correlation with Strike Propensity</h2>
+<p>I am going to look further at the potential correlation between
+countries with a propensity to engage in strikes and engage in DDOS
+attacks.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;politics&quot; variable &quot;strikes&quot;</span>
+<span class="va">lm_strikes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">strikes</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_strikes</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ strikes, data = all_data, na.action = na.exclude)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+ -827.2  -676.0  -592.6  -182.7 12475.0 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   -222.8     2731.8  -0.082    0.935
+strikes        355.3     1048.2   0.339    0.736
+
+Residual standard error: 1898 on 65 degrees of freedom
+Multiple R-squared:  0.001764,  Adjusted R-squared:  -0.01359 
+F-statistic: 0.1149 on 1 and 65 DF,  p-value: 0.7358</code></pre>
+</div>
+<h2 id="potential-correlation-with-education-level">Potential
+Correlation with Education Level</h2>
+<p>I am going to look further at the potential correlation between
+education level with a propensity to engage in strikes and engage in
+DDOS attacks.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;educational level&quot; and &quot;users&quot;</span>
+<span class="va">lm_education</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">education</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_education</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ education, data = all_data, na.action = na.exclude)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1533.6  -810.1  -400.2   154.9 12164.3 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  -2730.8     1422.6  -1.920   0.0593 .
+education      735.6      301.3   2.441   0.0174 *
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1818 on 65 degrees of freedom
+Multiple R-squared:  0.084, Adjusted R-squared:  0.06991 
+F-statistic: 5.961 on 1 and 65 DF,  p-value: 0.01736</code></pre>
+</div>
+<p>It may be that there are no correlations to be found here. But I want
+to run the analyses again using a column found in the codebook
+indicating ‘weights’ for population that should be used when comparing
+multiple variables to account for population size.</p>
+<h1 id="adding-population-weights">Adding Population Weights</h1>
+<h2 id="importance-to-respondents-1">Importance to Respondents</h2>
+<p>I’ll re-run the model with users and importance variables, but using
+the weights column. This gives me a warning that this is an “essentially
+perfect fit” and that the summary may be reliable. This result is
+consistent for each of the weighted models.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;importance&quot; variables + weighted   </span>
+<span class="va">mlm1w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">family</span> <span class="op">+</span> <span class="va">friends</span> <span class="op">+</span> <span class="va">leisure</span> <span class="op">+</span> <span class="va">politics</span> <span class="op">+</span> <span class="va">work</span> <span class="op">+</span> <span class="va">religion</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span>, <span class="va">weights</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm1w</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ family + friends + leisure + politics + 
+    work + religion, data = all_data, subset = weights, na.action = na.exclude)
+
+Residuals:
+         1        1.1 
+-5.024e-15  5.024e-15 
+
+Coefficients: (6 not defined because of singularities)
+             Estimate Std. Error   t value Pr(&gt;|t|)    
+(Intercept) 5.700e+01  5.024e-15 1.134e+16   &lt;2e-16 ***
+family             NA         NA        NA       NA    
+friends            NA         NA        NA       NA    
+leisure            NA         NA        NA       NA    
+politics           NA         NA        NA       NA    
+work               NA         NA        NA       NA    
+religion           NA         NA        NA       NA    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 7.105e-15 on 1 degrees of freedom</code></pre>
+</div>
+<h2 id="political-inclinations-of-respondents-1">Political Inclinations
+of Respondents</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;politics&quot; variables + weighted</span>
+<span class="va">mlm2w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">willingness</span> <span class="op">+</span> <span class="va">petition</span> <span class="op">+</span> <span class="va">boycott</span> <span class="op">+</span> <span class="va">demonstration</span> <span class="op">+</span> <span class="va">strikes</span> <span class="op">+</span> <span class="va">identity</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span>, <span class="va">weights</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm2w</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ willingness + petition + boycott + demonstration + 
+    strikes + identity, data = all_data, subset = weights, na.action = na.exclude)
+
+Residuals:
+         1        1.1 
+-5.024e-15  5.024e-15 
+
+Coefficients: (6 not defined because of singularities)
+               Estimate Std. Error   t value Pr(&gt;|t|)    
+(Intercept)   5.700e+01  5.024e-15 1.134e+16   &lt;2e-16 ***
+willingness          NA         NA        NA       NA    
+petition             NA         NA        NA       NA    
+boycott              NA         NA        NA       NA    
+demonstration        NA         NA        NA       NA    
+strikes              NA         NA        NA       NA    
+identity             NA         NA        NA       NA    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 7.105e-15 on 1 degrees of freedom</code></pre>
+</div>
+<h2 id="demographics-of-respondents-1">Demographics of Respondents</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Linear regression of &quot;demographics&quot; variables + weighted</span>
+<span class="va">mlm3w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span> <span class="op">~</span> <span class="va">marital</span> <span class="op">+</span> <span class="va">parents</span> <span class="op">+</span> <span class="va">children</span> <span class="op">+</span> <span class="va">household</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">income</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span>, <span class="va">weights</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mlm3w</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Call:
+lm(formula = users ~ marital + parents + children + household + 
+    education + income, data = all_data, subset = weights, na.action = na.exclude)
+
+Residuals:
+         1        1.1 
+-5.024e-15  5.024e-15 
+
+Coefficients: (6 not defined because of singularities)
+             Estimate Std. Error   t value Pr(&gt;|t|)    
+(Intercept) 5.700e+01  5.024e-15 1.134e+16   &lt;2e-16 ***
+marital            NA         NA        NA       NA    
+parents            NA         NA        NA       NA    
+children           NA         NA        NA       NA    
+household          NA         NA        NA       NA    
+education          NA         NA        NA       NA    
+income             NA         NA        NA       NA    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 7.105e-15 on 1 degrees of freedom</code></pre>
 </div>
 <h1 id="working-data">Working Data</h1>
 <p>This time I will start with the data frames with the observations I
 am looking at but not summarized by mean:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">&quot;integrated_data.csv&quot;</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">&#39;country&#39;</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
 <pre><code>    country population          region users   family  friends
 1   Albania  3,088,385 Southern Europe    57 1.020308 1.734266
 2   Andorra     85,645 Southern Europe     6 1.115538 1.535857
@@ -2535,19 +2962,29 @@ am looking at but not summarized by mean:</p>
 4      2.314614 2.585122 4.534380 2.818971 1.594793 1.790387
 5      2.016750 2.193404 5.068860 2.521739 1.068409 1.786682
 6      2.303878 2.709257 5.074932 2.980428 1.100487 1.368615
-  household education   income   weights scaled_weights
-1  4.087352  4.019512 4.089326 0.1399217      0.6968641
-2  2.500996  4.856431 5.302405 0.0069700      0.9960159
-3  3.500502  3.735793 5.073452 2.8145600      0.9970090
-4  4.262339  5.140000 4.008415 0.1460457      0.6666667
-5  2.480541  5.655192 5.085401 0.8979600      0.5515720
-6  2.287897  4.528624 4.468501 0.4567594      0.6082725</code></pre>
+  household education   income   weights
+1  4.087352  4.019512 4.089326 0.6968641
+2  2.500996  4.856431 5.302405 0.9960159
+3  3.500502  3.735793 5.073452 0.9970090
+4  4.262339  5.140000 4.008415 0.6666667
+5  2.480541  5.655192 5.085401 0.5515720
+6  2.287897  4.528624 4.468501 0.6082725</code></pre>
 </div>
 <p>Rather than just using a linear model, I want to look at some basic
 visualizations of relationships. I’ll start by just looking at which
 countries have the highest mean values assigned by respondents to the
 question of how important politics is to them.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">imp_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/arrange.html">arrange</a></span><span class="op">(</span><span class="va">all_data</span>, <span class="fu"><a href="https://rdrr.io/pkg/plyr/man/desc.html">desc</a></span><span class="op">(</span><span class="va">politics</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">imp_plot</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
 <pre><code>                 country population          region users   family
 1                Albania  3,088,385 Southern Europe    57 1.020308
 2               Slovenia  2,102,106 Southern Europe    18 1.154350
@@ -2569,17 +3006,28 @@ question of how important politics is to them.</p>
 4 2.792772      2.456101 2.750283 4.903103 2.533929 1.269908 1.412312
 5 2.304253      2.274639 2.393001 4.902655 3.026232 1.387430 1.230677
 6 2.198257      2.175840 2.370640 4.635749 3.054953 1.266938 1.366892
-  household education   income   weights scaled_weights
-1  4.087352  4.019512 4.089326 0.1399217      0.6968641
-2  2.973758  4.693171 4.942987 0.1514864      0.9302326
-3  2.928404  4.259977 4.489199 0.1646437      0.5800464
-4  2.833214  4.240461 4.526850 1.0852785      0.6968641
-5  3.149361  5.257552 4.870781 0.3982554      0.7337250
-6  2.903491  4.858204 5.572056 0.2311445      0.6724950</code></pre>
+  household education   income   weights
+1  4.087352  4.019512 4.089326 0.6968641
+2  2.973758  4.693171 4.942987 0.9302326
+3  2.928404  4.259977 4.489199 0.5800464
+4  2.833214  4.240461 4.526850 0.6968641
+5  3.149361  5.257552 4.870781 0.7337250
+6  2.903491  4.858204 5.572056 0.6724950</code></pre>
 </div>
 <p>Next, I’ll use the “broom” package to look at the linear relationship
 between all variables and save it in a dataframe:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">data_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span><span class="op">~</span><span class="va">family</span> <span class="op">+</span> <span class="va">friends</span> <span class="op">+</span> <span class="va">leisure</span> <span class="op">+</span> <span class="va">politics</span> <span class="op">+</span> <span class="va">work</span> <span class="op">+</span> <span class="va">religion</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="va">tidylm_important</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">data_lm</span><span class="op">)</span>
+<span class="va">tidylm_important</span>
+</code></pre>
+</div>
+</details>
 <pre><code># A tibble: 7 x 5
   term        estimate std.error statistic p.value
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -2592,6 +3040,17 @@ between all variables and save it in a dataframe:</p>
 7 religion        169.      512.    0.330    0.743</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">data_lm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span><span class="op">~</span><span class="va">willingness</span> <span class="op">+</span> <span class="va">petition</span> <span class="op">+</span> <span class="va">boycott</span> <span class="op">+</span> <span class="va">demonstration</span> <span class="op">+</span> <span class="va">strikes</span> <span class="op">+</span> <span class="va">identity</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="va">tidylm_politics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">data_lm2</span><span class="op">)</span>
+<span class="va">tidylm_politics</span>
+</code></pre>
+</div>
+</details>
 <pre><code># A tibble: 7 x 5
   term          estimate std.error statistic p.value
   &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -2604,6 +3063,17 @@ between all variables and save it in a dataframe:</p>
 7 identity          31.9      589.    0.0541  0.957 </code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">data_lm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">users</span><span class="op">~</span><span class="va">marital</span> <span class="op">+</span> <span class="va">parents</span> <span class="op">+</span> <span class="va">children</span> <span class="op">+</span> <span class="va">household</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">income</span>, data <span class="op">=</span> <span class="va">all_data</span>, na.action <span class="op">=</span> <span class="va">na.exclude</span><span class="op">)</span>
+<span class="va">tidylm_demographics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">data_lm3</span><span class="op">)</span>
+<span class="va">tidylm_demographics</span>
+</code></pre>
+</div>
+</details>
 <pre><code># A tibble: 7 x 5
   term        estimate std.error statistic p.value
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -2616,154 +3086,22 @@ between all variables and save it in a dataframe:</p>
 7 income         -111.      482.    -0.231   0.818</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">all_data</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">users</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">education</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method<span class="op">=</span><span class="va">lm</span>,se<span class="op">=</span><span class="cn">TRUE</span>,fullrange<span class="op">=</span><span class="cn">TRUE</span>,color<span class="op">=</span><span class="st">&quot;goldenrod&quot;</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_minimal_grid.html">theme_minimal_hgrid</a></span><span class="op">(</span><span class="op">)</span>
+</code></pre>
+</div>
+</details>
 <p><img src="data:image/png;base64,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" width="624" /></p>
 </div>
-<p>Predictor Variables for a Weighting Scale (<a href="https://journals.sagepub.com/doi/full/10.1177/00027642211021626" class="uri">https://journals.sagepub.com/doi/full/10.1177/00027642211021626</a>)
-Following the previous studies on protest potential, I use three sets of
-individual-level sociodemographic measures in the 1996 ISSP to construct
-a weighting scale of protest potential. Female indicates gender (0 =
-male, 1 = female). I include three age groups: young for 15 to 29 years,
-middle for 30 to 54 years, and old for 55 years and older. College
-education is the most important stage in educational attainment that
-promotes civic involvement and political interests related to political
-participation (Van Dyke, 2003). To capture the effect of the highest
-level of education completed by the respondent, I create college
-graduate, which measures whether the respondent earned a bachelor’s
-degree (0 = noncollege graduate, 1 = college graduate).3 At the country
-level, long-standing democracy measures whether the country has a
-well-established democratic history (0 = new democracy and autocracy, 1
-= long-standing democracy). Following Hadenius and Teorell (2007), I
-converted each country’s mean of Freedom House scores for political
-rights and civil liberties and Polity score from Polity5 to an 11-point
-scale ranging from 0 (autocracy) to 10 (democracy)4 and calculated the
-mean of these two democracy scores. Using a threshold score of 7.5 to
-distinguish democracies from autocracies (Hadenius &amp; Teorell 2007),5
-I treated countries that initiated a democratic political system prior
-to 1980 to “long-standing democracies” versus other countries that have
-either a relatively short history of democracy or still maintain
-features of an autocratic regime, called “new democracies and
-autocracies.” The annual democracy scores for the countries in the
-analysis are provided in the online supplement.</p>
-<p>Q1 In general, would you say that people should obey the law without
-exception, or are there exceptional occasions on which people should
-follow their consciences even if it means breaking the law?</p>
-<p>1 Obey the law without exception 2 Follow conscience on occasions 8
-Can’t choose 9 No answer</p>
-<p>Q2 There are many ways people or organisations can protest against a
-government action they strongly oppose. Please show which you think
-should be allowed and which should not be allowed by ticking a box on
-each line. (PLEASE TICK ONE BOX ON EACH LINE) Q2a Organising public
-meetings to protest against the government. 1 Definitely allowed 2
-Probably allowed 3 Probably not allowed 4 Definitely not allowed 8 Can’t
-choose 9 No answer</p>
-<p>Q2b Organising protest marches and demonstrations. 1 Definitely
-allowed 2 Probably allowed 3 Probably not allowed 4 Definitely not
-allowed 8 Can’t choose 9 No answer</p>
-<p>Q3 There are some people whose views are considered extreme by the
-majority. Consider people who want to overthrow the government by
-revolution. Do you think such people should be allowed to… (PLEASE TICK
-ONE BOX ON EACH LINE) Q3a …hold public meetings to express their views?
-1 Definitely allowed 2 Probably allowed 3 Probably not allowed 4
-Definitely not allowed 8 Can’t choose 9 No answer</p>
-<p>Q3 There are some people whose views are considered extreme by the
-majority. Consider people who want to overthrow the government by
-revolution. Do you think such people should be allowed to… (PLEASE TICK
-ONE BOX ON EACH LINE) Q3b …publish books expressing their views? 1
-Definitely allowed 2 Probably allowed 3 Probably not allowed 4
-Definitely not allowed 8 Can’t choose 9 No answer</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 6 x 395
-      studyno version doi    country c_sample c_alphan      v1      v2
-    &lt;dbl+lbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;chr&gt;    &lt;dbl+l&gt; &lt;dbl+l&gt;
-1 6900 [GESI~ 2.0.0 ~ doi:~ 36 [AU-~ 36 [AU-~ AU       2 [Fol~ 1 [Def~
-2 6900 [GESI~ 2.0.0 ~ doi:~ 36 [AU-~ 36 [AU-~ AU       2 [Fol~ 1 [Def~
-3 6900 [GESI~ 2.0.0 ~ doi:~ 36 [AU-~ 36 [AU-~ AU       2 [Fol~ 1 [Def~
-4 6900 [GESI~ 2.0.0 ~ doi:~ 36 [AU-~ 36 [AU-~ AU       1 [Obe~ 2 [Pro~
-5 6900 [GESI~ 2.0.0 ~ doi:~ 36 [AU-~ 36 [AU-~ AU       2 [Fol~ 1 [Def~
-6 6900 [GESI~ 2.0.0 ~ doi:~ 36 [AU-~ 36 [AU-~ AU       2 [Fol~ 1 [Def~
-# ... with 387 more variables: v3 &lt;dbl+lbl&gt;, v4 &lt;dbl+lbl&gt;,
-#   v5 &lt;dbl+lbl&gt;, v6 &lt;dbl+lbl&gt;, v7 &lt;dbl+lbl&gt;, v8 &lt;dbl+lbl&gt;,
-#   v9 &lt;dbl+lbl&gt;, v10 &lt;dbl+lbl&gt;, v11 &lt;dbl+lbl&gt;, v12 &lt;dbl+lbl&gt;,
-#   v13 &lt;dbl+lbl&gt;, v14 &lt;dbl+lbl&gt;, v15 &lt;dbl+lbl&gt;, v16 &lt;dbl+lbl&gt;,
-#   v17 &lt;dbl+lbl&gt;, v18 &lt;dbl+lbl&gt;, v19 &lt;dbl+lbl&gt;, v20 &lt;dbl+lbl&gt;,
-#   v21 &lt;dbl+lbl&gt;, v22 &lt;dbl+lbl&gt;, v23 &lt;dbl+lbl&gt;, v24 &lt;dbl+lbl&gt;,
-#   v25 &lt;dbl+lbl&gt;, v26 &lt;dbl+lbl&gt;, v27 &lt;dbl+lbl&gt;, v28 &lt;dbl+lbl&gt;, ...</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code>    X        country obey_laws public_mtgs protests
-1   8         France  1.757751    1.511240 1.624818
-2  29    Switzerland  1.743818    1.951267 1.991262
-3  18    New Zealand  1.675528    1.358333 1.607170
-4  15          Japan  1.656227    1.737741 1.927928
-5  28         Sweden  1.634035    1.248134 1.360825
-6  17      Lithuania  1.611354    1.767394 1.779275
-7  16         Latvia  1.607296    1.911111 2.016860
-8  10        Germany  1.601219    1.569899 1.618924
-9  12        Iceland  1.596154    1.283558 1.417413
-10  1      Australia  1.594191    1.437244 1.932937
-11 33  United States  1.583272    1.723326 1.745228
-12 23       Slovenia  1.580082    1.882902 1.923316
-13  4        Croatia  1.579268    1.681145 1.972167
-14  7        Finland  1.578995    1.638812 1.617080
-15  2        Belgium  1.565564    1.573198 1.725156
-16 25    South Korea  1.499035    1.932105 2.332685
-17 35 United Kingdom  1.495862    1.548928 1.870678
-18 32         Turkey  1.486232    2.314027 2.440868
-19  6        Denmark  1.478771    1.325709 1.485240
-20 19         Norway  1.460526    1.299916 1.414966
-21 11        Hungary  1.459205    1.830785 1.873469
-22 30         Taiwan  1.441592    1.895393 2.283152
-23  5        Czechia  1.436968    1.758364 1.951916
-24 21         Russia  1.435172    2.191176 2.296244
-25 20    Philippines  1.401378    2.476351 2.618887
-26 22       Slovakia  1.389815    1.864943 1.894535
-27 14         Israel  1.381698    1.626137 1.686047
-28  3          Chile  1.375281    2.111710 2.164615
-29 26          Spain  1.330357    1.564233 1.554736
-30 13          India  1.318658    1.714973 1.909343
-31 27       Suriname  1.311917    1.732582 1.876812
-32 24   South Africa  1.277221    1.995343 2.126126
-33 31       Thailand  1.220840    2.245536 2.427481
-34  9        Georgia  1.180818    1.931894 2.146835
-35 34      Venezuela  1.120673    2.246016 2.236056
-   revolutionary_mtgs revolutionary_books
-1            2.247453            1.970105
-2            2.395894            2.197446
-3            2.160876            2.051223
-4            2.200449            2.012158
-5            2.088643            1.794286
-6            2.370331            2.242295
-7            2.973376            2.625800
-8            2.161990            2.076822
-9            1.892542            1.832636
-10           2.633058            2.421552
-11           1.853999            1.703894
-12           2.820619            2.337113
-13           2.406343            1.961348
-14           2.807407            2.380134
-15           2.450435            2.104142
-16           2.619980            2.424390
-17           2.564548            2.418067
-18           2.378134            2.432659
-19           2.168539            1.929044
-20           2.351993            1.933570
-21           2.397043            2.485043
-22           2.433911            1.934712
-23           2.252847            2.255538
-24           3.013630            2.939283
-25           2.145256            2.075821
-26           2.170378            2.157534
-27           2.657046            2.451167
-28           2.343387            2.118974
-29           2.585380            2.310264
-30           1.839830            1.851535
-31           1.891779            2.078947
-32           1.922056            2.001344
-33           2.130562            2.175094
-34           2.160939            2.184534
-35           2.021761            2.000000</code></pre>
-</div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

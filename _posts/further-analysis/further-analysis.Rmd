@@ -1,7 +1,8 @@
 ---
 title: "Further Analysis"
 description: |
-  DACSS 603 Final Project Work: "Further Analysis
+  DACSS 603 Final Project Work: "Further Analysis"
+preview: education.png
 categories:
   - statistics
   - quantitative data analysis
@@ -30,6 +31,24 @@ library(scales)
 library(here)
 ```
 
+# Reading in Data
+
+Continuing this post by reading in the data I put together in my exploratory analysis. A full accounting of the variables and descriptions are in the "About" tab of this GitHub Page.
+
+```{r code_folding = TRUE}
+#all IVS data
+ivs_clean <- read.csv("ivs-df-clean.csv")
+ivs_clean <- as_tibble(ivs_clean)
+names(ivs_clean)[1] <- 'country'
+```
+
+```{r code_folding = TRUE}
+#integrated data
+all_data <- read.csv("integrated_data.csv")
+all_data <- as_tibble(all_data)
+names(all_data)[1] <- 'country'
+head(all_data)
+```
 
 # Multiple Linear Regression
 
@@ -57,6 +76,14 @@ mlm3 <- lm(users ~ marital + parents + children + household + education + income
 summary(mlm3)
 ```
 
+## Users to Politics and Education
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm4 <- lm(users ~  politics + identity + education, data = all_data, na.action = na.exclude)
+summary(mlm4)
+```
+
 # Simple Linear Regression
 
 ## Potential Correlation with Strike Propensity
@@ -69,22 +96,24 @@ lm_strikes <- lm(users ~ strikes, data = all_data, na.action = na.exclude)
 summary(lm_strikes)
 ```
 
+## Potential Correlation with Education Level
+
+I am going to look further at the potential correlation between education level with a propensity to engage in strikes and engage in DDOS attacks.
+
+```{r code_folding=TRUE}
+#Linear regression of "educational level" and "users"
+lm_education <- lm(users ~ education, data = all_data, na.action = na.exclude)
+summary(lm_education)
+```
+
+
 It may be that there are no correlations to be found here. But I want to run the analyses again using a column found in the codebook indicating 'weights' for population that should be used when comparing multiple variables to account for population size.
 
 # Adding Population Weights
 
-## Population to Users
-
-I'll re-run the model with just population and users, but using the weights column:
-
-```{r code_folding=TRUE}
-
-lm_population_weighted <- lm(population ~ users, data = all_data, na.action = na.exclude, weights)
-summary(lm_population_weighted)
-
-```
-
 ## Importance to Respondents
+
+I'll re-run the model with users and importance variables, but using the weights column. This gives me a warning that this is an "essentially perfect fit" and that the summary may be reliable. This result is consistent for each of the weighted models.
 
 ```{r code_folding=TRUE}
 #Linear regression of "importance" variables + weighted   
@@ -132,10 +161,8 @@ head(all_data)
 Rather than just using a linear model, I want to look at some basic visualizations of relationships. I'll start by just looking at which countries have the highest mean values assigned by respondents to the question of how important politics is to them.
 
 ```{r code_folding=TRUE}
-
 imp_plot <- arrange(all_data, desc(politics))
 head(imp_plot)
-
 ```
 
 Next, I'll use the "broom" package to look at the linear relationship between all variables and save it in a dataframe:
@@ -158,6 +185,9 @@ tidylm_demographics <- tidy(data_lm3)
 tidylm_demographics
 ```
 
+
+
+
 ```{r code_folding=TRUE}
 all_data %>% 
   ggplot(aes(log(users), log(education))) +
@@ -166,95 +196,8 @@ all_data %>%
     theme_minimal_hgrid()
 ```
 
-Predictor Variables for a Weighting Scale (https://journals.sagepub.com/doi/full/10.1177/00027642211021626)
-Following the previous studies on protest potential, I use three sets of individual-level sociodemographic measures in the 1996 ISSP to construct a weighting scale of protest potential. Female indicates gender (0 = male, 1 = female). I include three age groups: young for 15 to 29 years, middle for 30 to 54 years, and old for 55 years and older. College education is the most important stage in educational attainment that promotes civic involvement and political interests related to political participation (Van Dyke, 2003). To capture the effect of the highest level of education completed by the respondent, I create college graduate, which measures whether the respondent earned a bachelor’s degree (0 = noncollege graduate, 1 = college graduate).3 At the country level, long-standing democracy measures whether the country has a well-established democratic history (0 = new democracy and autocracy, 1 = long-standing democracy). Following Hadenius and Teorell (2007), I converted each country’s mean of Freedom House scores for political rights and civil liberties and Polity score from Polity5 to an 11-point scale ranging from 0 (autocracy) to 10 (democracy)4 and calculated the mean of these two democracy scores. Using a threshold score of 7.5 to distinguish democracies from autocracies (Hadenius & Teorell 2007),5 I treated countries that initiated a democratic political system prior to 1980 to “long-standing democracies” versus other countries that have either a relatively short history of democracy or still maintain features of an autocratic regime, called “new democracies and autocracies.” The annual democracy scores for the countries in the analysis are provided in the online supplement.
 
-Q1
-In general, would you say that people should obey the law without exception, or are there exceptional occasions on which people should
-follow their consciences even if it means breaking the law?
 
-1 Obey the law without exception
-2 Follow conscience on occasions
-8 Can't choose
-9 No answer
-
-Q2
-There are many ways people or organisations can protest against a government action they strongly oppose. Please show which you think
-should be allowed and which should not be allowed by ticking a box on each line.
-(PLEASE TICK ONE BOX ON EACH LINE)
-Q2a
-Organising public meetings to protest against the government.
-1 Definitely allowed
-2 Probably allowed
-3 Probably not allowed
-4 Definitely not allowed
-8 Can't choose
-9 No answer
-
-Q2b
-Organising protest marches and demonstrations.
-1 Definitely allowed
-2 Probably allowed
-3 Probably not allowed
-4 Definitely not allowed
-8 Can't choose
-9 No answer
-
-Q3
-There are some people whose views are considered extreme by the majority. Consider people who want to overthrow the government by
-revolution. Do you think such people should be allowed to...
-(PLEASE TICK ONE BOX ON EACH LINE)
-Q3a
-...hold public meetings to express their views?
-1 Definitely allowed
-2 Probably allowed
-3 Probably not allowed
-4 Definitely not allowed
-8 Can't choose
-9 No answer
-
-Q3
-There are some people whose views are considered extreme by the majority. Consider people who want to overthrow the government by
-revolution. Do you think such people should be allowed to...
-(PLEASE TICK ONE BOX ON EACH LINE)
-Q3b
-...publish books expressing their views?
-1 Definitely allowed
-2 Probably allowed
-3 Probably not allowed
-4 Definitely not allowed
-8 Can't choose
-9 No answer
-
-```{r code_folding=TRUE}
-
-#read in .dta file
-library(haven)
-issp <- read_dta("ZA6900_v2-0-0.dta")
-head(issp)
-library(countrycode)
-issp$country <- countrycode(issp$c_alphan, origin = "iso2c", destination = "country.name")
-issp_subset <- read.csv("issp_subset.csv")
-
-issp_legal <- issp_subset %>%
-   group_by(country) %>%
-   summarise(
-     obey_laws=mean(obey, na.rm = TRUE),
-     public_mtgs=mean(public, na.rm = TRUE),
-     protests=mean(protest, na.rm = TRUE),
-     revolutionary_mtgs=mean(revolutionary, na.rm = TRUE),
-     revolutionary_books=mean(books, na.rm = TRUE))
-
-issp_legal <- read.csv("issp_legal.csv")
-
-```
-
-```{r code_folding=TRUE}
-issp_desc <- arrange(issp_legal, desc(obey_laws))
-
-issp_desc
-
-```
 
 
 
