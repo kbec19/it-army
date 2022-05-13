@@ -80,25 +80,22 @@ proportions <- read.csv("proportions.csv")
 proportions
 ```
 
+### Basic Pearson Correlation
+
+```{r code_folding=TRUE}
+cor(regional_all$DDOS_Users, regional_all$Public_Interest, method = "pearson")
+```
+
 # Linear Regression
 
 ## Simple Correlation of Population and Sample Population
 
-Comparing the population of each region being examined and the representative population of the countries represented in my sample. These are highely correlated.
+Comparing the population of each region being examined and the representative population of the countries represented in my sample. These are highly correlated.
 
 ```{r code_folding=TRUE}
 #Linear regression
 pop_lm <- lm(Total_Population ~ Sample_Population, data = regional_all, na.action = na.exclude)
 summary(pop_lm)
-```
-
-```{r code_folding=TRUE}
-plot(pop_lm)
-```
-
-
-```{r code_folding=TRUE}
-ggPredict(pop_lm,se=TRUE,interactive=TRUE)
 ```
 
 ## Multiple Linear Correlation of Variables
@@ -112,7 +109,8 @@ summary(regional_mlm)
 ```
 
 ```{r code_folding=TRUE}
-ggPredict(regional_mlm,se=TRUE,interactive=TRUE)
+library(stargazer)
+stargazer(regional_mlm, type = "text")
 ```
 
 
@@ -151,21 +149,78 @@ Fitting another model, this time with an interaction term allowing interaction b
 mlm3d <- lm(DDOS_Users ~ Public_Interest + Media_Interest + Public_Interest*Media_Interest, data = regional_all)
 
 summary(mlm3d)
-
 ```
+
+### Single Models
+
+#### Public Interest
 
 ```{r code_folding=TRUE}
+pi <- lm(DDOS_Users ~ Public_Interest, data = regional_all)
+summary(pi)
+```
 
-ggPredict(mlm3d,se=TRUE,interactive=TRUE)
+#### Media Interest
 
+```{r code_folding=TRUE}
+mi <- lm(DDOS_Users ~ Media_Interest, data = regional_all)
+summary(mi)
+```
+
+### Multiple Lines
+
+```{r code_folding=TRUE}
+gg2 <- ggplot() +
+   geom_smooth(aes(log(DDOS_Users), log(Media_Interest)), data = regional_all, fullrange=TRUE,
+               method = "lm", se = TRUE, color = "red3") + 
+   geom_smooth(aes(log(DDOS_Users), log(Public_Interest)), data = regional_all, fullrange=TRUE,
+               method = "lm", se = TRUE, color = "forestgreen") +
+  ggtitle("Media Interest and Public Interest & DDOS Users", subtitle = "Green Indicating Public Interest, Red Indicating Media Interest") +
+  xlab("log: DDOS Users") +
+  ylab("log: Media Interactions") +
+  theme_minimal_hgrid()
+
+ gg2 
 ```
 
 
-```{r}
+### Stargazer
 
-plot(regional_mlm)
+Fitting the media models with stargazer
 
+```{r code_folding=TRUE}
+library(stargazer)
+library(tinytex)
+library(sandwich)
+
+m1 = lm(DDOS_Users ~ Media_Interest, data = regional_all)
+m2 = lm(DDOS_Users ~ Public_Interest, data = regional_all)
+
+model.lst = list(m1, m2)
+
+stargazer(m1,
+          m2,
+          title="Displaying results for multiple response variables",
+          type = "text",
+          float = TRUE,
+          report = "vcsp",
+          se=lapply(model.lst, function(x) sqrt(diag(vcovHC(x, type = "HC1")))),
+          no.space = TRUE,
+          header=FALSE,
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          covariate.labels = c("Intercept", "Media Interest", "Public Interest"),
+          column.labels = c("Media Interest", "Public Interest"),
+          column.separate = c(1, 1),
+          digits = 3,
+          t.auto = T,
+          p.auto = T
+          )
 ```
+
+
+
 
 
 
