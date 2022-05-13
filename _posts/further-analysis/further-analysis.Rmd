@@ -60,6 +60,38 @@ mlm1 <- lm(users ~ family + friends + leisure + politics + work + religion, data
 summary(mlm1)
 ```
 
+Removing the largest p-value first:
+
+```{r code_folding=TRUE}
+#Linear regression of "importance" variables
+mlm1b <- lm(users ~ family + friends + politics + work + religion, data = all_data, na.action = na.exclude)
+summary(mlm1b)
+```
+
+Removing the next largest p-value:
+
+```{r code_folding=TRUE}
+#Linear regression of "importance" variables
+mlm1c <- lm(users ~ family + friends + politics + work, data = all_data, na.action = na.exclude)
+summary(mlm1c)
+```
+
+Removing the next largest p-value:
+
+```{r code_folding=TRUE}
+#Linear regression of "importance" variables
+mlm1d <- lm(users ~ family + politics + work, data = all_data, na.action = na.exclude)
+summary(mlm1d)
+```
+
+Removing the next largest p-value:
+
+```{r code_folding=TRUE}
+#Linear regression of "importance" variables
+mlm1e <- lm(users ~ politics + work, data = all_data, na.action = na.exclude)
+summary(mlm1e)
+```
+
 ## Political Inclinations of Respondents
 
 ```{r code_folding=TRUE}
@@ -67,6 +99,70 @@ summary(mlm1)
 mlm2 <- lm(users ~ willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude)
 summary(mlm2)
 ```
+
+Removing the highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2b <- lm(users ~ willingness + petition + boycott + demonstration + strikes, data = all_data, na.action = na.exclude)
+summary(mlm2b)
+```
+
+Removing the next highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2c <- lm(users ~ petition + boycott + demonstration + strikes, data = all_data, na.action = na.exclude)
+summary(mlm2c)
+```
+
+Removing the next highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2d <- lm(users ~ petition + demonstration + strikes, data = all_data, na.action = na.exclude)
+summary(mlm2d)
+```
+
+Removing the next highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2e <- lm(users ~ demonstration + strikes, data = all_data, na.action = na.exclude)
+summary(mlm2e)
+```
+Looking at only "demonstration"
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2f <- lm(users ~ demonstration, data = all_data, na.action = na.exclude)
+summary(mlm2f)
+```
+
+Plotting this model
+
+```{r code_folding=TRUE}
+
+plot(mlm2f)
+
+```
+
+Looking at only "strikes"
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm2g <- lm(users ~ strikes, data = all_data, na.action = na.exclude)
+summary(mlm2g)
+```
+
+Plotting the best model
+
+```{r code_folding=TRUE}
+
+plot(mlm2e)
+
+```
+
 
 ## Demographics of Respondents
 
@@ -76,13 +172,71 @@ mlm3 <- lm(users ~ marital + parents + children + household + education + income
 summary(mlm3)
 ```
 
-## Users to Politics and Education
+Remove highest p-value first
 
 ```{r code_folding=TRUE}
 #Linear regression of "demographics" variables
-mlm4 <- lm(users ~  politics + identity + education, data = all_data, na.action = na.exclude)
+mlm3b <- lm(users ~ marital + parents + children + education + income, data = all_data, na.action = na.exclude)
+summary(mlm3b)
+```
+
+Remove next highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm3b <- lm(users ~ marital + parents + education + income, data = all_data, na.action = na.exclude)
+summary(mlm3b)
+```
+
+Remove next highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm3c <- lm(users ~ marital + parents + education, data = all_data, na.action = na.exclude)
+summary(mlm3c)
+```
+
+Remove next highest p-value
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm3d <- lm(users ~ parents + education, data = all_data, na.action = na.exclude)
+summary(mlm3d)
+```
+
+## Users to Politics and Education
+
+I'll look at a model that uses combinations of variables from demographics as well as political variables.
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm4 <- lm(users ~  politics + education, data = all_data, na.action = na.exclude)
 summary(mlm4)
 ```
+
+## Users to Strike Propensity and Education
+
+I'll look at a model that uses combinations of variables from demographics as well as political variables.
+
+```{r code_folding=TRUE}
+#Linear regression of "demographics" variables
+mlm5 <- lm(users ~ strikes + education, data = all_data, na.action = na.exclude)
+summary(mlm5)
+```
+
+One more combination to try and understand if different variables can create a better model
+
+```{r code_folding=TRUE}
+#Linear regression of "politics" variables
+mlm7 <- lm(users ~ demonstration + strikes + education, data = all_data, na.action = na.exclude)
+summary(mlm7)
+```
+
+```{r code_folding=TRUE}
+par(mfrow = c(1,1))
+plot(mlm7, 1:6)
+```
+
 
 # Simple Linear Regression
 
@@ -105,7 +259,6 @@ I am going to look further at the potential correlation between education level 
 lm_education <- lm(users ~ education, data = all_data, na.action = na.exclude)
 summary(lm_education)
 ```
-
 
 It may be that there are no correlations to be found here. But I want to run the analyses again using a column found in the codebook indicating 'weights' for population that should be used when comparing multiple variables to account for population size.
 
@@ -137,64 +290,14 @@ mlm3w <- lm(users ~ marital + parents + children + household + education + incom
 summary(mlm3w)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-# Working Data
-
-This time I will start with the data frames with the observations I am looking at but not summarized by mean:
-
-```{r code_folding = TRUE}
-all_data <- read.csv("integrated_data.csv")
-names(all_data)[1] <- 'country'
-head(all_data)
-```
-
-Rather than just using a linear model, I want to look at some basic visualizations of relationships. I'll start by just looking at which countries have the highest mean values assigned by respondents to the question of how important politics is to them.
+## The best model I generated with the weights function added
 
 ```{r code_folding=TRUE}
-imp_plot <- arrange(all_data, desc(politics))
-head(imp_plot)
+#Linear regression of "politics" variables
+mlm7b <- lm(users ~ demonstration + strikes + education, data = all_data, na.action = na.exclude, weights)
+summary(mlm7b)
 ```
 
-Next, I'll use the "broom" package to look at the linear relationship between all variables and save it in a dataframe:
-
-```{r code_folding=TRUE}
-data_lm <- lm(users~family + friends + leisure + politics + work + religion, data = all_data, na.action = na.exclude)
-tidylm_important <- tidy(data_lm)
-tidylm_important
-```
-
-```{r code_folding=TRUE}
-data_lm2 <- lm(users~willingness + petition + boycott + demonstration + strikes + identity, data = all_data, na.action = na.exclude)
-tidylm_politics <- tidy(data_lm2)
-tidylm_politics
-```
-
-```{r code_folding=TRUE}
-data_lm3 <- lm(users~marital + parents + children + household + education + income, data = all_data, na.action = na.exclude)
-tidylm_demographics <- tidy(data_lm3)
-tidylm_demographics
-```
-
-
-
-
-```{r code_folding=TRUE}
-all_data %>% 
-  ggplot(aes(log(users), log(education))) +
-  geom_point() +
-  geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="goldenrod") +
-    theme_minimal_hgrid()
-```
 
 
 
