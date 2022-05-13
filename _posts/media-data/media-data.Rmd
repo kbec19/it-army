@@ -1,23 +1,172 @@
 ---
 title: "Media Data"
 description: |
-  A short description of the post.
+  DACSS 603 Final Project Work: "Media Analysis"
+preview: public_interest.png
+categories:
+  - statistics
+  - media analysis
+  - quantitative data analysis
+  - final project
+  - IT Army of Ukraine
 author:
   - name: Kristina Becvar
-    url: {}
-date: 2022-05-12
+date: 2022-05-04
 output:
   distill::distill_article:
-    self_contained: false
+    toc: true
+    code_folding: true
+    
 ---
 
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(plyr); library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(broom)
+library(scales)
+library(here)
+require(ggiraph)
+require(ggiraphExtra)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+# Reading in Data
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+Read in data for both measures of media interest gathered from the Spike/Newswhip media site
+
+Public Interest = Social media interactions on articles
+
+Media Interest = Number of articles published
+
+## Public Interest
+
+```{r code_folding = TRUE}
+#public interest
+public_interest <- read_csv("IT_Army_ Public_Interest.csv", 
+    col_types = cols(Date = col_date(format = "%m/%d/%Y")))
+public_interest <- as_tibble(public_interest)
+head(public_interest)
+```
+
+## Media Interest
+
+```{r code_folding = TRUE}
+#media interest
+media_interest <- read_csv("IT_Army_ Media_Interest.csv", 
+    col_types = cols(Date = col_date(format = "%m/%d/%Y")))
+media_interest <- as_tibble(media_interest)
+head(media_interest)
+```
+
+## Media, Population, and User Data
+
+All measure are in one dataset for analysis.
+
+```{r code_folding = TRUE}
+#data frame with all regional observations
+regional_all <- read_csv("comprehensive_by_region.csv") 
+regional_all <- as_tibble(regional_all)
+regional_all
+```
+
+### Proportional Data
+
+```{r code_folding = TRUE}
+#proportions
+proportions <- read.csv("proportions.csv")
+proportions
+```
+
+# Linear Regression
+
+## Simple Correlation of Population and Sample Population
+
+Comparing the population of each region being examined and the representative population of the countries represented in my sample. These are highely correlated.
+
+```{r code_folding=TRUE}
+#Linear regression
+pop_lm <- lm(Total_Population ~ Sample_Population, data = regional_all, na.action = na.exclude)
+summary(pop_lm)
+```
+
+```{r code_folding=TRUE}
+plot(pop_lm)
+```
+
+
+```{r code_folding=TRUE}
+ggPredict(pop_lm,se=TRUE,interactive=TRUE)
+```
+
+## Multiple Linear Correlation of Variables
+
+Explanatory variables are both the public interest and media interest counts with the DDOS user counts as the outcome variable.
+
+```{r code_folding=TRUE}
+#Linear regression user and media variables
+regional_mlm <- lm(DDOS_Users ~ Public_Interest + Media_Interest, data = regional_all, na.action = na.exclude)
+summary(regional_mlm)
+```
+
+```{r code_folding=TRUE}
+ggPredict(regional_mlm,se=TRUE,interactive=TRUE)
+```
+
+
+```{r code_folding=TRUE}
+#create plot
+regional_plot <- ggplot(regional_all, aes(x = log(Media_Interest), y = log(DDOS_Users), color = Region)) +
+   geom_point() +
+   geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="cornflowerblue") +
+   labs(title= "Media Interest and Users",
+        x= "Media Interest",
+        y = "Users") +
+    theme_minimal_hgrid()
+regional_plot
+```
+
+
+```{r code_folding=TRUE}
+#create plot
+regional_plot2 <- ggplot(regional_all, aes(x = log(Public_Interest), y = log(DDOS_Users), color = Region)) +
+   geom_point() +
+   geom_smooth(method=lm,se=TRUE,fullrange=TRUE,color="cornflowerblue") +
+   labs(title= "Public Interest and Users",
+        x= "Public Interest",
+        y = "Users") +
+    theme_minimal_hgrid()
+regional_plot2
+```
+
+
+### Interaction Term
+
+Fitting another model, this time with an interaction term allowing interaction between population and media interest
+
+```{r code_folding=TRUE}
+
+mlm3d <- lm(DDOS_Users ~ Public_Interest + Media_Interest + Public_Interest*Media_Interest, data = regional_all)
+
+summary(mlm3d)
+
+```
+
+```{r code_folding=TRUE}
+
+ggPredict(mlm3d,se=TRUE,interactive=TRUE)
+
+```
+
+
+```{r}
+
+plot(regional_mlm)
+
+```
+
+
 
 

@@ -7,7 +7,21 @@
     <description>IT Army
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 26 Apr 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Media Data</title>
+      <dc:creator>Kristina Becvar</dc:creator>
+      <link>https://kbec19.github.io/it-army/posts/media-data</link>
+      <description>DACSS 603 Final Project Work: "Media Analysis"</description>
+      <category>statistics</category>
+      <category>media analysis</category>
+      <category>quantitative data analysis</category>
+      <category>final project</category>
+      <category>IT Army of Ukraine</category>
+      <guid>https://kbec19.github.io/it-army/posts/media-data</guid>
+      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://kbec19.github.io/it-army/posts/media-data/public_interest.png" medium="image" type="image/png" width="700" height="432"/>
+    </item>
     <item>
       <title>Further Analysis</title>
       <dc:creator>Kristina Becvar</dc:creator>
