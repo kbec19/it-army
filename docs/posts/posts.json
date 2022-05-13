@@ -1,5 +1,29 @@
 [
   {
+    "path": "posts/poster-presentation/",
+    "title": "Poster Presentation",
+    "description": "DACSS 603 Final Project Work: \"Poster Presentation\"",
+    "author": [
+      {
+        "name": "Kristina Becvar",
+        "url": {}
+      }
+    ],
+    "date": "2022-05-12",
+    "categories": [
+      "statistics",
+      "quantitative data analysis",
+      "final project",
+      "IT Army of Ukraine"
+    ],
+    "contents": "\r\n\r\n\r\n\r\n\r\n",
+    "preview": "posts/poster-presentation/poster.png",
+    "last_modified": "2022-05-13T04:20:13-05:00",
+    "input_file": "poster-presentation.knit.md",
+    "preview_width": 4608,
+    "preview_height": 3456
+  },
+  {
     "path": "posts/media-data/",
     "title": "Media Data",
     "description": "DACSS 603 Final Project Work: \"Media Analysis\"",

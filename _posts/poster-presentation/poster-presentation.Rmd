@@ -1,0 +1,28 @@
+---
+title: "Poster Presentation"
+description: |
+  DACSS 603 Final Project Work: "Poster Presentation"
+preview: poster.png
+categories:
+  - statistics
+  - quantitative data analysis
+  - final project
+  - IT Army of Ukraine
+author:
+  - name: Kristina Becvar
+date: 2022-05-12
+output:
+  distill::distill_article:
+    toc: true
+    code_folding: true
+    
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+![](poster.png)
+
+
